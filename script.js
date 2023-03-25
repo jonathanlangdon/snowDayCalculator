@@ -19,6 +19,7 @@ function getWeather(zipCode) {
           .then(response => response.json())
           .then(data => {
             const forecastHourlyUrl = data.properties.forecastHourly;
+            console.log(forecastHourlyUrl);
             fetch(forecastHourlyUrl, {
               headers: {
                 'User-Agent': 'calvaryeagles.org (langdon@calvaryeagles.org)'
@@ -29,10 +30,20 @@ function getWeather(zipCode) {
               const tomorrow7amForecast = data.properties.periods.find(period => {
                 return period.startTime.includes('T07:00');
               });
+              console.log(tomorrow7amForecast);
               if (tomorrow7amForecast) {
                 document.getElementById('temp-tomorrow').textContent = `Temperature at 7am tomorrow: ${tomorrow7amForecast.temperature} °F`;
               } else {
                 document.getElementById('temp-tomorrow').textContent = 'No forecast available for 7am tomorrow';
+              }
+              const tomorrow5amForecast = data.properties.periods.find(period => {
+                return period.startTime.includes('T05:00');
+              });
+              console.log(tomorrow5amForecast);
+              if (tomorrow5amForecast) {
+                document.getElementById('precip-chance').textContent = `Precipitation at 5am: ${tomorrow5amForecast.probabilityOfPrecipitation.value} %`;
+              } else {
+                document.getElementById('precip-chance').textContent = 'No forecast available for 5am tomorrow';
               }
             })
           })
