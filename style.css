@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
   }
 
 input {
@@ -17,4 +18,6 @@ input[type=number]::-webkit-inner-spin-button {
  
 input[type=number] {
   -moz-appearance: textfield;
+  width: 100px;
+  text-align: center;
 }
