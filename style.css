@@ -4,6 +4,10 @@
     text-align: center;
   }
 
+  body {
+    background-image: url(graphics/snow.jpg);
+  }
+
 input {
     border-radius: 5px;
     font-size: 16px;
