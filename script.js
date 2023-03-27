@@ -13,7 +13,7 @@ function getWeather(zipCode) {
         console.log(weatherUrl);
         fetch(weatherUrl, {
           headers: {
-            'User-Agent': 'calvaryeagles.org (langdon@calvaryeagles.org)'
+            "User-Agent": "calvaryeagles.org (langdon@calvaryeagles.org)"
           }
         })
           .then(response => response.json())
@@ -22,51 +22,51 @@ function getWeather(zipCode) {
             console.log(forecastHourlyUrl);
             fetch(forecastHourlyUrl, {
               headers: {
-                'User-Agent': 'calvaryeagles.org (langdon@calvaryeagles.org)'
+                "User-Agent": "calvaryeagles.org (langdon@calvaryeagles.org)"
               }
             })
             .then(response => response.json())
             .then(data => {
               const tomorrow7amForecast = data.properties.periods.find(period => {
-                return period.startTime.includes('T07:00');
+                return period.startTime.includes("T07:00");
               });
               console.log(tomorrow7amForecast);
               if (tomorrow7amForecast) {
-                document.getElementById('temp-tomorrow').textContent = `Temperature at 7am tomorrow: ${tomorrow7amForecast.temperature} °F`;
+                document.getElementById("temp-tomorrow").textContent = `Temperature at 7am tomorrow: ${tomorrow7amForecast.temperature} °F`;
               } else {
-                document.getElementById('temp-tomorrow').textContent = 'No forecast available for 7am tomorrow';
+                document.getElementById("temp-tomorrow").textContent = "No forecast available for 7am tomorrow";
               }
               const tomorrow5amForecast = data.properties.periods.find(period => {
-                return period.startTime.includes('T05:00');
+                return period.startTime.includes("T05:00");
               });
               console.log(tomorrow5amForecast);
               if (tomorrow5amForecast) {
-                document.getElementById('precip-chance').textContent = `Precipitation at 5am: ${tomorrow5amForecast.probabilityOfPrecipitation.value} %`;
+                document.getElementById("precip-chance").textContent = `Precipitation at 5am: ${tomorrow5amForecast.probabilityOfPrecipitation.value} %`;
               } else {
-                document.getElementById('precip-chance').textContent = 'No forecast available for 5am tomorrow';
+                document.getElementById("precip-chance").textContent = "No forecast available for 5am tomorrow";
               }
             })
           })
           .catch(error => {
-            console.error('Error fetching weather data:', error);
-            document.getElementById('temp-tomorrow').textContent = 'Error fetching weather data';
+            console.error("Error fetching weather data:", error);
+            document.getElementById("temp-tomorrow").textContent = "Error fetching weather data";
           });
       })
       .catch(error => {
-        console.error('Error fetching location data:', error);
-        document.getElementById('temp-tomorrow').textContent = 'Error fetching location data';
+        console.error("Error fetching location data:", error);
+        document.getElementById("temp-tomorrow").textContent = "Error fetching location data";
       });
   }
   
-  const zipForm = document.querySelector('#zip-form');
-  zipForm.addEventListener('submit', (event) => {
+  const zipForm = document.querySelector("#zip-form");
+  zipForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const zipCode = document.querySelector('#zip-code').value;
+    const zipCode = document.querySelector("#zip-code").value;
     getWeather(zipCode);
   });
 
   // Get the button element
-const locationBtn = document.querySelector("button[type='button']");
+const locationBtn = document.querySelector("button[type="button"]");
 
 // Add a click event listener to the button
 locationBtn.addEventListener("click", () => {
