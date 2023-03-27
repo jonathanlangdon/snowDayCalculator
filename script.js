@@ -66,7 +66,7 @@ function getWeather(zipCode) {
   });
 
   // Get the button element
-const locationBtn = document.querySelector("button[type="button"]");
+const locationBtn = document.querySelector("button[type='button']");
 
 // Add a click event listener to the button
 locationBtn.addEventListener("click", () => {
