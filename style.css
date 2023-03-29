@@ -1,12 +1,26 @@
 * {
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-align: center;
   }
 
-  body {
-    background-image: url(graphics/snow.jpg);
-  }
+body {
+  background-image: url(graphics/snow.jpg);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+  text-align: center;
+  max-width: 500px;
+  justify-content: center;
+  align-content: center;
+}
+
+#location-btn {
+  width: 250px;
+  margin: 0 auto;
+}
 
 input {
     border-radius: 5px;
