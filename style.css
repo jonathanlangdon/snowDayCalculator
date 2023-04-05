@@ -11,10 +11,8 @@ main {
   display: flex;
   flex-direction: column;
   margin: 10px auto;
-  text-align: center;
   max-width: 500px;
-  justify-content: center;
-  align-content: center;
+  place-items: center;
 }
 
 #location-btn {
