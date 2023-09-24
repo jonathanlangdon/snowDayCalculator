@@ -112,21 +112,18 @@ document
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('calculator-form')
   form.addEventListener('submit', async function (e) {
-    console.log('she got clicked')
     e.preventDefault()
 
     // Collecting form data
     const formData = new URLSearchParams(new FormData(form)).toString()
-
-    // Making a POST request with form-encoded data
-    const response = await fetch('/cgi-bin/calculate.py', {
+    // Making a POST request to the new Node.js endpoint
+    const response = await fetch('/calc', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: formData
     })
-
     const data = await response.json()
     alert('Chance of Snow Day: ' + data.result)
   })
