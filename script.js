@@ -114,19 +114,19 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async function (e) {
     console.log('she got clicked')
     e.preventDefault()
-    const snowToday = parseFloat(document.getElementById('snow-today').value)
-    const snowTomorrow = parseFloat(
-      document.getElementById('snow-tomorrow').value
-    )
-    const precip = parseFloat(document.getElementById('precip').value)
-    const temp = parseFloat(document.getElementById('temp').value)
-    const response = await fetch('http://snowdaymichigan.com/calculate', {
+
+    // Collecting form data
+    const formData = new URLSearchParams(new FormData(form)).toString()
+
+    // Making a POST request with form-encoded data
+    const response = await fetch('/cgi-bin/calculate.py', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
-      body: JSON.stringify({ snowToday, snowTomorrow, precip, temp })
+      body: formData
     })
+
     const data = await response.json()
     alert('Chance of Snow Day: ' + data.result)
   })
