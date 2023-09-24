@@ -128,6 +128,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (data.result < 1) returnValue = 'less than 1%'
     else if (data.result > 99) returnValue = '99%'
     else returnValue = `${data.result}%`
-    alert('Chance of Snow Day: ' + returnValue)
+    const modalBody = document.getElementById('modalBody')
+    modalBody.innerText = 'Chance of Snow Day: ' + returnValue
+    modalBody.className = 'modal-body text-center font-weight-bold'
+    var resultModal = new bootstrap.Modal(
+      document.getElementById('resultModal')
+    )
+    resultModal.show()
   })
 })
