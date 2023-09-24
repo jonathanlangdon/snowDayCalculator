@@ -4,6 +4,7 @@ function errorGettingWeather() {
     .insertAdjacentText('beforeend', '|| Error fetching weather data ||')
 }
 
+// Good test URL: https://api.weather.gov/points/43,-86
 function getWeatherUrl() {
   const latitude = document.querySelector('#latitude').value
   const longitude = document.querySelector('#longitude').value
@@ -114,9 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async function (e) {
     e.preventDefault()
 
-    // Collecting form data
     const formData = new URLSearchParams(new FormData(form)).toString()
-    // Making a POST request to the new Node.js endpoint
     const response = await fetch('/calc', {
       method: 'POST',
       headers: {
@@ -125,6 +124,10 @@ document.addEventListener('DOMContentLoaded', function () {
       body: formData
     })
     const data = await response.json()
-    alert('Chance of Snow Day: ' + data.result)
+    returnValue = ''
+    if (data.result < 1) returnValue = 'less than 1%'
+    else if (data.result > 99) returnValue = '99%'
+    else returnValue = `${data.result}%`
+    alert('Chance of Snow Day: ' + returnValue)
   })
 })
