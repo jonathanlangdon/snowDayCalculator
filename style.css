@@ -1,47 +1,13 @@
 * {
-    box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* border: solid; */
-  }
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  /* border: solid; */
+}
 
 body {
   background-image: url(graphics/snow.jpg);
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  height: 90vh;
-  place-content: center;
-  margin: 0 auto;
-  max-width: 500px;
-  place-items: center;
-}
-
-#location-btn {
-  width: 250px;
-  margin: 0 auto;
-  font-size: 1rem;
-}
-
-h2 {
-  margin: 0;
-  font-size: larger;
-}
-
-input {
-    border-radius: 5px;
-    font-size: 16px;
-    padding: 5px;
-}
-
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
- 
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
   width: 100px;
   text-align: center;
@@ -49,5 +15,12 @@ input[type=number] {
 
 button {
   margin: 10px;
-  padding: 10px;
+  padding: 5px;
+}
+
+p,
+label,
+a {
+  font-size: large;
+  font-weight: 600;
 }
