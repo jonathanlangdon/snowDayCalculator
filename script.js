@@ -112,6 +112,7 @@ document
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('calculator-form')
   form.addEventListener('submit', async function (e) {
+    console.log('she got clicked')
     e.preventDefault()
     const snowToday = parseFloat(document.getElementById('snow-today').value)
     const snowTomorrow = parseFloat(
@@ -119,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
     )
     const precip = parseFloat(document.getElementById('precip').value)
     const temp = parseFloat(document.getElementById('temp').value)
-    const response = await fetch('http://your-server-address:5000/calculate', {
+    const response = await fetch('http://snowdaymichigan.com/calculate', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
