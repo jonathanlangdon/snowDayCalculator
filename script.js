@@ -1,12 +1,11 @@
 function errorGettingWeather() {
-  document
-    .getElementById('error-container')
-    .insertAdjacentText('beforeend', '|| Error fetching weather data ||')
+  document.querySelector('#forecast-error').innerText =
+    '|| Error fetching weather data ||'
 }
 
 function displayError(message) {
   document
-    .getElementById('error-container')
+    .querySelector('#error-container')
     .insertAdjacentText('beforeend', message)
 }
 
@@ -180,30 +179,28 @@ async function fetchData(url, formData) {
 }
 
 function updateModal(data) {
-  const modalBody = document.getElementById('modalBody')
+  const modalBody = document.querySelector('#chance-calculation')
   let returnValue = ''
-
   if (data.result < 1) returnValue = 'less than 1%'
   else if (data.result > 99) returnValue = '99%'
   else returnValue = `${data.result}%`
+  modalBody.innerText = returnValue
 
-  modalBody.innerText = 'Chance of Snow Day: ' + returnValue
-  modalBody.className = 'modal-body text-center font-weight-bold'
-
+  const textResult = document.querySelector('#text-interpretation')
   if (data.result < 16) {
-    modalBody.insertAdjacentText('beforeend', '   Really not likely')
+    textResult.innerText = 'Really not likely'
   } else if (data.result < 36) {
-    modalBody.insertAdjacentText('beforeend', '   Not likely')
+    textResult.innerText = 'Not likely'
   } else if (data.result < 5) {
-    modalBody.insertAdjacentText('beforeend', '   Slight chance')
+    textResult.innerText = 'Slight chance'
   } else if (data.result < 71) {
-    modalBody.insertAdjacentText('beforeend', '   Decent chance')
+    textResult.innerText = 'Decent chance'
   } else if (data.result < 86) {
-    modalBody.insertAdjacentText('beforeend', '   Good chance')
+    textResult.innerText = 'Good chance'
   } else if (data.result < 99) {
-    modalBody.insertAdjacentText('beforeend', '   High chance')
+    textResult.innerText = 'High chance'
   } else if (data.result >= 99) {
-    modalBody.insertAdjacentText('beforeend', '   Count on it')
+    textResult.innerText = 'Count on it'
   }
 }
 

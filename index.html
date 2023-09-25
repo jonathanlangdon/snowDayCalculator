@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" type="text/css" href="style.css?v=1.01" />
+    <link rel="stylesheet" type="text/css" href="style.css?v=1.02" />
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
@@ -59,6 +59,7 @@
           <button class="btn-secondary main-buttons" type="submit">
             Get Weather.gov Forecast
           </button>
+          <p id="forecast-error"></p>
         </div>
       </form>
       <div class="text-center under-link">
@@ -180,7 +181,10 @@
                 Snow Day Chance
               </h4>
             </div>
-            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-body" id="modalBody">
+              <h3 class="text-center" id="chance-calculation"></h3>
+              <p class="text-center" id="text-interpretation"></p>
+            </div>
             <div class="modal-footer">
               <button
                 type="button"
@@ -194,7 +198,7 @@
         </div>
       </div>
     </main>
-    <script src="script.js?v=1.15"></script>
+    <script src="script.js?v=1.18"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
