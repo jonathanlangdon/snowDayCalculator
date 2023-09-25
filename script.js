@@ -181,7 +181,7 @@ async function fetchData(url, formData) {
 function updateModal(data) {
   const modalBody = document.querySelector('#chance-calculation')
   let returnValue = ''
-  if (data.result < 1) returnValue = 'less than 1%'
+  if (data.result < 1) returnValue = 'Less than 1%'
   else if (data.result > 99) returnValue = '99%'
   else returnValue = `${data.result}%`
   modalBody.innerText = returnValue
