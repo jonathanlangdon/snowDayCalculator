@@ -172,6 +172,22 @@ function updateModal(data) {
 
   modalBody.innerText = 'Chance of Snow Day: ' + returnValue
   modalBody.className = 'modal-body text-center font-weight-bold'
+
+  if (data.result < 16) {
+    modalBody.insertAdjacentText('beforeend', '   Really not likely')
+  } else if (data.result < 36) {
+    modalBody.insertAdjacentText('beforeend', '   Not likely')
+  } else if (data.result < 5) {
+    modalBody.insertAdjacentText('beforeend', '   Slight chance')
+  } else if (data.result < 71) {
+    modalBody.insertAdjacentText('beforeend', '   Decent chance')
+  } else if (data.result < 86) {
+    modalBody.insertAdjacentText('beforeend', '   Good chance')
+  } else if (data.result < 99) {
+    modalBody.insertAdjacentText('beforeend', '   High chance')
+  } else if (data.result >= 99) {
+    modalBody.insertAdjacentText('beforeend', '   Count on it')
+  }
 }
 
 function showErrorModal() {
