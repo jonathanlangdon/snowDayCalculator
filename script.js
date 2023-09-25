@@ -112,28 +112,63 @@ document
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('calculator-form')
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault()
-
-    const formData = new URLSearchParams(new FormData(form)).toString()
-    const response = await fetch('/calc', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: formData
-    })
-    const data = await response.json()
-    returnValue = ''
-    if (data.result < 1) returnValue = 'less than 1%'
-    else if (data.result > 99) returnValue = '99%'
-    else returnValue = `${data.result}%`
-    const modalBody = document.getElementById('modalBody')
-    modalBody.innerText = 'Chance of Snow Day: ' + returnValue
-    modalBody.className = 'modal-body text-center font-weight-bold'
-    var resultModal = new bootstrap.Modal(
-      document.getElementById('resultModal')
-    )
-    resultModal.show()
-  })
+  form.addEventListener('submit', handleFormSubmit)
 })
+
+async function handleFormSubmit(e) {
+  e.preventDefault()
+
+  try {
+    const formData = getFormData(e.target)
+    const data = await fetchData('/calc', formData)
+    updateModal(data)
+  } catch (error) {
+    console.error('Error during operation: ', error)
+    showErrorModal()
+  }
+
+  showModal('resultModal')
+}
+
+function getFormData(form) {
+  return new URLSearchParams(new FormData(form)).toString()
+}
+
+async function fetchData(url, formData) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData
+  })
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+
+  return await response.json()
+}
+
+function updateModal(data) {
+  const modalBody = document.getElementById('modalBody')
+  let returnValue = ''
+
+  if (data.result < 1) returnValue = 'less than 1%'
+  else if (data.result > 99) returnValue = '99%'
+  else returnValue = `${data.result}%`
+
+  modalBody.innerText = 'Chance of Snow Day: ' + returnValue
+  modalBody.className = 'modal-body text-center font-weight-bold'
+}
+
+function showErrorModal() {
+  const modalBody = document.getElementById('modalBody')
+  modalBody.innerText = 'Error calculating Snow Day'
+  modalBody.className = 'modal-body text-center font-weight-bold text-danger'
+}
+
+function showModal(modalId) {
+  var resultModal = new bootstrap.Modal(document.getElementById(modalId))
+  resultModal.show()
+}

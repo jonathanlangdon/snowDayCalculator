@@ -8,12 +8,11 @@ body {
 }
 
 input[type='number'] {
-  -moz-appearance: textfield;
   width: 100px;
   text-align: center;
 }
 
-button {
+.main-buttons {
   margin: 10px;
   padding: 5px;
 }
