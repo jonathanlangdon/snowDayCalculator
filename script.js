@@ -4,35 +4,27 @@ function errorGettingWeather() {
     .insertAdjacentText('beforeend', '|| Error fetching weather data ||')
 }
 
-// Good test URL: https://api.weather.gov/points/43,-86
-function getWeatherUrl() {
-  const latitude = document.querySelector('#latitude').value
-  const longitude = document.querySelector('#longitude').value
-  return `https://api.weather.gov/points/${latitude},${longitude}`
-}
-
-function fetchWeatherData(url) {
-  return fetch(url).then(response => response.json())
-}
-
-function getForecastForTime(data, time) {
-  return data.properties.periods.find(period => period.startTime.includes(time))
-}
-
-function updateElementValue(elementId, value) {
-  document.getElementById(elementId).value = value
-}
-
 function displayError(message) {
   document
     .getElementById('error-container')
     .insertAdjacentText('beforeend', message)
 }
 
+// Good test URL for API: https://api.weather.gov/points/43,-86
+function getWeatherUrl() {
+  const latitude = document.querySelector('#latitude').value
+  const longitude = document.querySelector('#longitude').value
+  return [
+    `https://api.weather.gov/points/${latitude},${longitude}`,
+    `https://api.weather.gov/alerts/active?point=${latitude},${longitude}`
+  ]
+}
+
 // get 7am Forecast for Temperature and return feel like temp
 function handleTemperatureForecast(data) {
-  const tomorrow7amForecast = getForecastForTime(data, 'T07:00')
-
+  const tomorrow7amForecast = data.properties.periods.find(period =>
+    period.startTime.includes('T07:00')
+  )
   if (tomorrow7amForecast) {
     const temp7am = parseFloat(tomorrow7amForecast.temperature)
     const windSpeedStr = tomorrow7amForecast.windSpeed
@@ -43,25 +35,38 @@ function handleTemperatureForecast(data) {
       0.6215 * temp7am -
       35.75 * wind7am ** 0.16 +
       0.4275 * temp7am * wind7am ** 0.16
-    updateElementValue('temp', feelLikeTemp.toFixed(0))
+    document.querySelector('#temp').value = feelLikeTemp.toFixed(0)
   } else {
-    updateElementValue('temp', '')
+    document.querySelector('#temp').value = ''
     displayError('|| No forecast available for 7am tomorrow ||')
   }
 }
 
 // get 5am Forecast for Precipitation
 function handlePrecipitationForecast(data) {
-  const tomorrow5amForecast = getForecastForTime(data, 'T05:00')
-
+  const tomorrow5amForecast = data.properties.periods.find(period =>
+    period.startTime.includes('T05:00')
+  )
   if (tomorrow5amForecast) {
-    updateElementValue(
-      'precip',
+    document.querySelector('#precip').value =
       tomorrow5amForecast.probabilityOfPrecipitation.value
-    )
   } else {
-    updateElementValue('precip', '')
+    document.querySelector('#precip').value = ''
     displayError('|| No forecast available for 5am tomorrow ||')
+  }
+}
+
+// get number of inches of snow
+function handleSnow(data, day, container) {
+  const forecastOfDay = data.properties.periods[day]
+
+  if (forecastOfDay) {
+    const match = forecastOfDay.detailedForecast.match(
+      /\b(\d+(\.\d+)?)\s*(inch|inches)\b/
+    )
+    document.querySelector(container).value = match ? parseFloat(match[1]) : 0
+  } else {
+    errorGettingWeather()
   }
 }
 
@@ -74,28 +79,39 @@ function handleForecastHourly(url) {
     })
 }
 
-function handleSnow(data, day, container) {
-  const forecastOfDay = data.properties.periods[day]
-
-  if (forecastOfDay) {
-    const forecastDescription = forecastOfDay.detailedForecast
-    const regex = /\b(\d+(\.\d+)?)\s*(inch|inches)\b/
-    const match = forecastDescription.match(regex)
-    document.querySelector(container).value = match ? parseFloat(match[1]) : 0
-  } else {
-    errorGettingWeather()
-  }
+// Determine what kind of weather alert is in effect
+function handleAlert(url) {
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      if (data.features.length !== 0) {
+        if (data.features.match(/.*(winter).*(warning).*/i)) {
+          document.querySelector('#warning').checked = true
+        } else if (data.features.match(/.*(winter).*(advisory).*/i)) {
+          document.querySelector('#advisory').checked = true
+        }
+      } else {
+        document.querySelector('#no-alert').checked = true
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching weather data:', error)
+      errorGettingWeather()
+    })
 }
 
 function getWeather() {
-  const weatherUrl = getWeatherUrl()
-  fetchWeatherData(weatherUrl)
+  const Urls = getWeatherUrl()
+  const weatherUrl = Urls[0]
+  const alertUrl = Urls[1]
+  fetch(weatherUrl)
+    .then(response => response.json())
     .then(initialData => {
       const forecastHourlyUrl = initialData.properties.forecastHourly
       const forecastUrl = initialData.properties.forecast
-      return fetchWeatherData(forecastUrl)
+      return fetch(forecastUrl)
+        .then(response => response.json())
         .then(forecastData => {
-          console.log(forecastData)
           handleSnow(forecastData, 0, '#snow-today')
           handleSnow(forecastData, 1, '#snow-tomorrow')
         })
@@ -110,6 +126,7 @@ function getWeather() {
       console.error('Error fetching weather data:', error)
       errorGettingWeather()
     })
+  handleAlert(alertUrl)
 }
 
 // Get weather
