@@ -23,3 +23,8 @@ a {
   font-size: large;
   font-weight: 600;
 }
+
+.under-link {
+  text-decoration-line: underline;
+  padding-bottom: 10px;
+}

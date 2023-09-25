@@ -95,6 +95,7 @@ function getWeather() {
       const forecastUrl = initialData.properties.forecast
       return fetchWeatherData(forecastUrl)
         .then(forecastData => {
+          console.log(forecastData)
           handleSnow(forecastData, 0, '#snow-today')
           handleSnow(forecastData, 1, '#snow-tomorrow')
         })
@@ -111,6 +112,7 @@ function getWeather() {
     })
 }
 
+// Get weather
 document
   .querySelector('#get-forecast-form')
   .addEventListener('submit', function (event) {
@@ -119,6 +121,7 @@ document
     getWeather()
   })
 
+// Submit for SnowDay calculation
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('calculator-form')
   form.addEventListener('submit', handleFormSubmit)
