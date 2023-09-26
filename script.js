@@ -106,6 +106,7 @@ function getWeather() {
   fetch(weatherUrl)
     .then(response => response.json())
     .then(initialData => {
+      console.log(initialData)
       const forecastHourlyUrl = initialData.properties.forecastHourly
       const forecastUrl = initialData.properties.forecast
       return fetch(forecastUrl)
@@ -127,21 +128,6 @@ function getWeather() {
     })
   handleAlert(alertUrl)
 }
-
-// Get weather
-document
-  .querySelector('#get-forecast-form')
-  .addEventListener('submit', function (event) {
-    document.querySelector('#error-container').innerHTML = ''
-    event.preventDefault()
-    getWeather()
-  })
-
-// Submit for SnowDay calculation
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('calculator-form')
-  form.addEventListener('submit', handleFormSubmit)
-})
 
 async function handleFormSubmit(e) {
   e.preventDefault()
@@ -214,3 +200,18 @@ function showModal(modalId) {
   var resultModal = new bootstrap.Modal(document.getElementById(modalId))
   resultModal.show()
 }
+
+// Get weather button
+document
+  .querySelector('#get-forecast-form')
+  .addEventListener('submit', function (event) {
+    document.querySelector('#forecast-error').innerHTML = ''
+    event.preventDefault()
+    getWeather()
+  })
+
+// Submit for SnowDay calculation
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('calculator-form')
+  form.addEventListener('submit', handleFormSubmit)
+})
