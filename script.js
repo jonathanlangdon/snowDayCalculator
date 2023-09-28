@@ -69,64 +69,74 @@ function handleSnow(data, day, container) {
   }
 }
 
-function handleForecastHourly(url) {
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      handleTemperatureForecast(data)
-      handlePrecipitationForecast(data)
-    })
+async function handleForecastHourly(url) {
+  try {
+    const data = await fetchDataWithRetry(url)
+    handleTemperatureForecast(data)
+    handlePrecipitationForecast(data)
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    errorGettingWeather()
+  }
 }
 
-// Determine what kind of weather alert is in effect
-function handleAlert(url) {
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      if (data.features.length !== 0) {
-        if (data.features.match(/.*(winter).*(warning).*/i)) {
-          document.querySelector('#warning').checked = true
-        } else if (data.features.match(/.*(winter).*(advisory).*/i)) {
-          document.querySelector('#advisory').checked = true
-        }
-      } else {
-        document.querySelector('#no-alert').checked = true
+async function handleAlert(url) {
+  try {
+    const data = await fetchDataWithRetry(url)
+    if (data.features.length !== 0) {
+      if (data.features.match(/.*(winter).*(warning).*/i)) {
+        document.querySelector('#warning').checked = true
+      } else if (data.features.match(/.*(winter).*(advisory).*/i)) {
+        document.querySelector('#advisory').checked = true
       }
-    })
-    .catch(error => {
-      console.error('Error fetching weather data:', error)
-      errorGettingWeather()
-    })
+    } else {
+      document.querySelector('#no-alert').checked = true
+    }
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    errorGettingWeather()
+  }
 }
 
-function getWeather() {
+async function fetchDataWithRetry(url, maxRetries = 3, delay = 5000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const response = await fetch(url)
+      if (!response.ok) throw new Error('Network response was not ok')
+      return await response.json()
+    } catch (error) {
+      if (i < maxRetries - 1) await new Promise(res => setTimeout(res, delay))
+      else throw error
+    }
+  }
+}
+
+async function getWeather() {
+  document.querySelector('#forecast-error').innerText = ''
+  document.getElementById('loading-message').style.display = 'block'
   const Urls = getWeatherUrl()
   const weatherUrl = Urls[0]
   const alertUrl = Urls[1]
-  fetch(weatherUrl)
-    .then(response => response.json())
-    .then(initialData => {
-      console.log(initialData)
-      const forecastHourlyUrl = initialData.properties.forecastHourly
-      const forecastUrl = initialData.properties.forecast
-      return fetch(forecastUrl)
-        .then(response => response.json())
-        .then(forecastData => {
-          handleSnow(forecastData, 0, '#snow-today')
-          handleSnow(forecastData, 1, '#snow-tomorrow')
-        })
-        .then(() => {
-          return forecastHourlyUrl
-        })
-    })
-    .then(forecastHourlyUrl => {
-      return handleForecastHourly(forecastHourlyUrl)
-    })
-    .catch(error => {
-      console.error('Error fetching weather data:', error)
-      errorGettingWeather()
-    })
-  handleAlert(alertUrl)
+
+  try {
+    const initialData = await fetchDataWithRetry(weatherUrl)
+    console.log(initialData)
+    const forecastHourlyUrl = initialData.properties.forecastHourly
+    const forecastUrl = initialData.properties.forecast
+
+    const forecastData = await fetchDataWithRetry(forecastUrl)
+    handleSnow(forecastData, 0, '#snow-today')
+    handleSnow(forecastData, 1, '#snow-tomorrow')
+
+    await handleForecastHourly(forecastHourlyUrl)
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    errorGettingWeather()
+  } finally {
+    document.getElementById('loading-message').style.display = 'none'
+  }
+
+  await handleAlert(alertUrl)
 }
 
 async function handleFormSubmit(e) {
