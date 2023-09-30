@@ -15,5 +15,5 @@ if ($payloadHash !== $signature) {
     die('Invalid signature');
 }
 
-echo shell_exec("cd ~/public_html && git pull 2>&1");
+echo shell_exec("git pull 2>&1");
 ?>
