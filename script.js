@@ -98,7 +98,7 @@ async function handleAlert(url) {
   }
 }
 
-async function fetchDataWithRetry(url, maxRetries = 4, delay = 7000) {
+async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   for (let i = 0; i < maxRetries; i++) {
     try {
       const response = await fetch(url)
