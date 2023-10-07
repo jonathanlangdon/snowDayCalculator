@@ -14,7 +14,7 @@
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
-    <main>
+    <main class="w-50 m-auto">
       <h1 class="text-center">West Michigan Snow Day Calculator</h1>
       <p
         class="font-italic text-center m-auto bg-dark text-white rounded w-auto small font-weight-bold"
@@ -22,15 +22,19 @@
         Note: does not predict ice days or other irregular events causing snow
         days
       </p>
-      <p class="font-italic text-center">Default Location: Fruitport, MI</p>
-      <div class="text-center under-link">
-        <a href="https://gps-coordinates.org/" target="_blank"
-          >Find your latitude and longitude</a
-        >
-      </div>
+      <p class="font-italic text-center small-text">
+        Default Location: Fruitport, MI
+      </p>
+      <form id="location-getter" class="text-center">
+        <div class="text-center">
+          <button class="btn-info main-buttons" type="submit">
+            Get your location
+          </button>
+        </div>
+      </form>
       <form id="get-forecast-form" class="text-center">
         <div>
-          <label for="latitude">Enter Latitude:</label>
+          <label for="latitude">Latitude:</label>
           <input
             type="number"
             name="latitude"
@@ -38,11 +42,11 @@
             value="43.1440"
             min="35.0"
             max="49.0"
-            step="0.0000000001"
+            step="0.00000000000000001"
           />
         </div>
         <div>
-          <label for="longitude">Enter Longitude:</label>
+          <label for="longitude">Longitude:</label>
           <input
             type="number"
             name="longitude"
@@ -50,7 +54,7 @@
             value="-86.1699"
             min="-104.0"
             max="-66.0"
-            step="0.0000000001"
+            step="0.00000000000000001"
           />
         </div>
 

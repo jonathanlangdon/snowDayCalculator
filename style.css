@@ -7,6 +7,12 @@ body {
   background-image: url(graphics/snow.jpg);
 }
 
+main {
+  background-color: rgb(255, 255, 255, 0.8);
+  border-radius: 10px;
+  min-width: 450px;
+}
+
 input[type='number'] {
   width: 100px;
   text-align: center;
@@ -14,7 +20,8 @@ input[type='number'] {
 
 .main-buttons {
   margin: 10px;
-  padding: 5px;
+  padding: 7px;
+  border-radius: 4px;
 }
 
 p,
@@ -41,4 +48,10 @@ a {
 
 #loading-message p {
   animation: flash 1s infinite;
+}
+
+.small-text {
+  font-size: 12px;
+  margin-bottom: 0;
+  margin-top: 10px;
 }

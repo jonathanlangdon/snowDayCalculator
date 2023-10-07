@@ -1,18 +1,18 @@
 function errorGettingWeather() {
-  document.querySelector('#forecast-error').innerText =
+  document.getElementById('forecast-error').innerText =
     '|| Error fetching weather data ||'
 }
 
 function displayError(message) {
   document
-    .querySelector('#error-container')
+    .getElementById('error-container')
     .insertAdjacentText('beforeend', message)
 }
 
 // Good test URL for API: https://api.weather.gov/points/43,-86
 function getWeatherUrl() {
-  const latitude = document.querySelector('#latitude').value
-  const longitude = document.querySelector('#longitude').value
+  const latitude = document.getElementById('latitude').value
+  const longitude = document.getElementById('longitude').value
   return [
     `https://api.weather.gov/points/${latitude},${longitude}`,
     `https://api.weather.gov/alerts/active?point=${latitude},${longitude}`
@@ -34,9 +34,9 @@ function handleTemperatureForecast(data) {
       0.6215 * temp7am -
       35.75 * wind7am ** 0.16 +
       0.4275 * temp7am * wind7am ** 0.16
-    document.querySelector('#temp').value = feelLikeTemp.toFixed(0)
+    document.getElementById('temp').value = feelLikeTemp.toFixed(0)
   } else {
-    document.querySelector('#temp').value = ''
+    document.getElementById('temp').value = ''
     displayError('|| No forecast available for 7am tomorrow ||')
   }
 }
@@ -47,10 +47,10 @@ function handlePrecipitationForecast(data) {
     period.startTime.includes('T05:00')
   )
   if (tomorrow5amForecast) {
-    document.querySelector('#precip').value =
+    document.getElementById('precip').value =
       tomorrow5amForecast.probabilityOfPrecipitation.value
   } else {
-    document.querySelector('#precip').value = ''
+    document.getElementById('precip').value = ''
     displayError('|| No forecast available for 5am tomorrow ||')
   }
 }
@@ -85,12 +85,12 @@ async function handleAlert(url) {
     const data = await fetchDataWithRetry(url)
     if (data.features.length !== 0) {
       if (data.features.match(/.*(winter).*(warning).*/i)) {
-        document.querySelector('#warning').checked = true
+        document.getElementById('warning').checked = true
       } else if (data.features.match(/.*(winter).*(advisory).*/i)) {
-        document.querySelector('#advisory').checked = true
+        document.getElementById('advisory').checked = true
       }
     } else {
-      document.querySelector('#no-alert').checked = true
+      document.getElementById('no-alert').checked = true
     }
   } catch (error) {
     console.error('Error fetching weather data:', error)
@@ -112,7 +112,7 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
 }
 
 async function getWeather() {
-  document.querySelector('#forecast-error').innerText = ''
+  document.getElementById('forecast-error').innerText = ''
   document.getElementById('loading-message').style.display = 'block'
   const Urls = getWeatherUrl()
   const weatherUrl = Urls[0]
@@ -175,14 +175,14 @@ async function fetchData(url, formData) {
 }
 
 function updateModal(data) {
-  const modalBody = document.querySelector('#chance-calculation')
+  const modalBody = document.getElementById('chance-calculation')
   let returnValue = ''
   if (data.result < 1) returnValue = 'Less than 1%'
   else if (data.result > 99) returnValue = '99%'
   else returnValue = `${data.result}%`
   modalBody.innerText = returnValue
 
-  const textResult = document.querySelector('#text-interpretation')
+  const textResult = document.getElementById('text-interpretation')
   if (data.result < 16) {
     textResult.innerText = 'Really not likely'
   } else if (data.result < 36) {
@@ -211,11 +211,22 @@ function showModal(modalId) {
   resultModal.show()
 }
 
-// Get weather button
+// Location Getter
 document
-  .querySelector('#get-forecast-form')
+  .getElementById('location-getter')
   .addEventListener('submit', function (event) {
-    document.querySelector('#forecast-error').innerHTML = ''
+    event.preventDefault()
+    navigator.geolocation.getCurrentPosition(function (position) {
+      document.getElementById('latitude').value = position.coords.latitude
+      document.getElementById('longitude').value = position.coords.longitude
+    })
+  })
+
+// Get weather submit button
+document
+  .getElementById('get-forecast-form')
+  .addEventListener('submit', function (event) {
+    document.getElementById('forecast-error').innerHTML = ''
     event.preventDefault()
     getWeather()
   })
