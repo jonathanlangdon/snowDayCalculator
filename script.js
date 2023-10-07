@@ -196,7 +196,7 @@ function updateModal(data) {
   } else if (data.result < 99) {
     textResult.innerText = 'High chance'
   } else if (data.result >= 99) {
-    textResult.innerText = 'Count on it'
+    textResult.innerText = 'Boom baby'
   }
 }
 
