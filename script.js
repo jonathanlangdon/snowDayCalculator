@@ -111,13 +111,13 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   }
 }
 
-async function getWeather() {
-  document.getElementById('forecast-error').innerText = ''
+async function getWeather(e) {
+  e.preventDefault()
+  document.getElementById('forecast-error').innerHTML = ''
   document.getElementById('loading-message').style.display = 'block'
   const Urls = getWeatherUrl()
   const weatherUrl = Urls[0]
   const alertUrl = Urls[1]
-
   try {
     const initialData = await fetchDataWithRetry(weatherUrl)
     console.log(initialData)
@@ -135,13 +135,10 @@ async function getWeather() {
   } finally {
     document.getElementById('loading-message').style.display = 'none'
   }
-
   await handleAlert(alertUrl)
 }
-
-async function handleFormSubmit(e) {
+async function handleSnowSubmit(e) {
   e.preventDefault()
-
   try {
     const formData = getFormData(e.target)
     const data = await fetchData('/calc', formData)
@@ -150,7 +147,6 @@ async function handleFormSubmit(e) {
     console.error('Error during operation: ', error)
     showErrorModal()
   }
-
   showModal('resultModal')
 }
 
@@ -254,25 +250,14 @@ function getUserLocation(e) {
 function init() {
   usePreviousLocation()
 
-  // GeoLocation Event Handler
-  document
-    .getElementById('location-getter')
-    .addEventListener('submit', getUserLocation)
+  const locationGetBtn = document.getElementById('location-getter')
+  locationGetBtn.addEventListener('submit', getUserLocation)
 
-  // Weather Forecast Event Handler
-  document
-    .getElementById('get-forecast-form')
-    .addEventListener('submit', function (e) {
-      document.getElementById('forecast-error').innerHTML = ''
-      e.preventDefault()
-      getWeather()
-    })
+  const forecastGetBtn = document.getElementById('get-forecast-form')
+  forecastGetBtn.addEventListener('submit', getWeather)
 
-  // SnowDay Calculation Event Handler
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('calculator-form')
-    form.addEventListener('submit', handleFormSubmit)
-  })
+  const calculateSnowBtn = document.getElementById('calculator-form')
+  calculateSnowBtn.addEventListener('submit', handleSnowSubmit)
 }
 
 init()
