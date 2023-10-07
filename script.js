@@ -211,21 +211,6 @@ function showModal(modalId) {
   resultModal.show()
 }
 
-// Location Getter
-document
-  .getElementById('location-getter')
-  .addEventListener('submit', function (event) {
-    event.preventDefault()
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const latitude = position.coords.latitude
-      const longitude = position.coords.longitude
-      document.getElementById('latitude').value = latitude
-      document.getElementById('longitude').value = longitude
-      localStorage.setItem('latitude', latitude)
-      localStorage.setItem('longitude', longitude)
-    })
-  })
-
 // Use previously obtained location
 function usePreviousLocation() {
   let formLatitude = document.getElementById('latitude')
@@ -254,21 +239,40 @@ function usePreviousLocation() {
   })
 }
 
-usePreviousLocation()
-
-usePreviousLocation()
-
-// Get weather submit button
-document
-  .getElementById('get-forecast-form')
-  .addEventListener('submit', function (event) {
-    document.getElementById('forecast-error').innerHTML = ''
-    event.preventDefault()
-    getWeather()
+function getUserLocation(e) {
+  e.preventDefault()
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitude = position.coords.latitude
+    const longitude = position.coords.longitude
+    document.getElementById('latitude').value = latitude
+    document.getElementById('longitude').value = longitude
+    localStorage.setItem('latitude', latitude)
+    localStorage.setItem('longitude', longitude)
   })
+}
 
-// Submit for SnowDay calculation
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('calculator-form')
-  form.addEventListener('submit', handleFormSubmit)
-})
+function init() {
+  usePreviousLocation()
+
+  // GeoLocation Event Handler
+  document
+    .getElementById('location-getter')
+    .addEventListener('submit', getUserLocation)
+
+  // Weather Forecast Event Handler
+  document
+    .getElementById('get-forecast-form')
+    .addEventListener('submit', function (e) {
+      document.getElementById('forecast-error').innerHTML = ''
+      e.preventDefault()
+      getWeather()
+    })
+
+  // SnowDay Calculation Event Handler
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('calculator-form')
+    form.addEventListener('submit', handleFormSubmit)
+  })
+}
+
+init()
