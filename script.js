@@ -217,10 +217,46 @@ document
   .addEventListener('submit', function (event) {
     event.preventDefault()
     navigator.geolocation.getCurrentPosition(function (position) {
-      document.getElementById('latitude').value = position.coords.latitude
-      document.getElementById('longitude').value = position.coords.longitude
+      const latitude = position.coords.latitude
+      const longitude = position.coords.longitude
+      document.getElementById('latitude').value = latitude
+      document.getElementById('longitude').value = longitude
+      localStorage.setItem('latitude', latitude)
+      localStorage.setItem('longitude', longitude)
     })
   })
+
+// Use previously obtained location
+function usePreviousLocation() {
+  let formLatitude = document.getElementById('latitude')
+  let formLongitude = document.getElementById('longitude')
+  let prevLocationText = document.getElementById('prev-location-text')
+  let changeLocationLink = document.getElementById('change-location-link')
+  let locationServices = document.querySelectorAll('.location-services')
+
+  if (localStorage.latitude && localStorage.longitude) {
+    formLatitude.value = localStorage.latitude
+    formLongitude.value = localStorage.longitude
+    locationServices.forEach(x => (x.style.display = 'none'))
+    prevLocationText.style.display = 'block'
+  } else {
+    formLatitude.value = 43.144
+    formLongitude.value = -86.17
+    locationServices.forEach(x => (x.style.display = 'block'))
+    prevLocationText.style.display = 'none'
+  }
+
+  changeLocationLink.addEventListener('click', function (e) {
+    e.preventDefault()
+    locationServices.forEach(x => (x.style.display = 'block'))
+    prevLocationText.style.display = 'none'
+    changeLocationLink.style.display = 'none'
+  })
+}
+
+usePreviousLocation()
+
+usePreviousLocation()
 
 // Get weather submit button
 document
