@@ -10,7 +10,7 @@ body {
 main {
   background-color: rgb(255, 255, 255, 0.8);
   border-radius: 10px;
-  min-width: 450px;
+  min-width: 400px;
 }
 
 input[type='number'] {

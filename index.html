@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" type="text/css" href="style.css?v=1.04" />
+    <link rel="stylesheet" type="text/css" href="style.css?v=1.05" />
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
@@ -103,7 +103,7 @@
           />
         </div>
         <div>
-          <label for="precip">Precipitation Probability at 5am:</label>
+          <label for="precip">% Precipitation at 5am:</label>
           <input
             type="number"
             name="precip"
@@ -116,7 +116,7 @@
           />
         </div>
         <div>
-          <label for="temp">Feel-like Temperature at 7am:</label>
+          <label for="temp">Feel-like 7am Temp:</label>
           <input
             type="number"
             name="temp"
@@ -184,11 +184,11 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title mx-auto" id="resultModalLabel">
-                Snow Day Chance
+                Tomorrow's Snow Day Chance
               </h4>
             </div>
             <div class="modal-body" id="modalBody">
-              <h3 class="text-center" id="chance-calculation"></h3>
+              <h4 class="text-center" id="chance-calculation"></h4>
               <p class="text-center" id="text-interpretation"></p>
             </div>
             <div class="modal-footer">
