@@ -192,7 +192,7 @@ function updateModal(data) {
   } else if (data.result < 99) {
     textResult.innerText = 'High chance'
   } else if (data.result >= 99) {
-    textResult.innerText = 'Boom baby'
+    textResult.innerText = 'Pack your snow pants'
   }
 }
 
