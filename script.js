@@ -183,7 +183,7 @@ function updateModal(data) {
     textResult.innerText = 'Really not likely'
   } else if (data.result < 36) {
     textResult.innerText = 'Not likely'
-  } else if (data.result < 5) {
+  } else if (data.result < 51) {
     textResult.innerText = 'Slight chance'
   } else if (data.result < 71) {
     textResult.innerText = 'Decent chance'
