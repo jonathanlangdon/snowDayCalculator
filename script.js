@@ -10,6 +10,7 @@ function displayError(message) {
 }
 
 // Good test URL for API: https://api.weather.gov/points/43,-86
+// Alert URL test: https://api.weather.gov/alerts/active?point=43,-86
 function getWeatherUrl() {
   const latitude = document.getElementById('latitude').value
   const longitude = document.getElementById('longitude').value
@@ -57,43 +58,46 @@ function handlePrecipitationForecast(data) {
 
 // get number of inches of snow
 function handleSnow(data, day, container) {
-  const forecastOfDay = data.properties.periods[day]
+  const dayType = day === 'today' ? 0 : 1
+  let forecastOfDay = data.properties.periods[dayType]
+  let tonightHasForecast = false
 
-  if (forecastOfDay) {
-    const match = forecastOfDay.detailedForecast.match(
-      /\b(\d+(\.\d+)?)\s*(inch|inches)\b/
-    )
-    document.querySelector(container).value = match ? parseFloat(match[1]) : 0
-  } else {
-    errorGettingWeather()
-  }
-}
-
-async function handleForecastHourly(url) {
-  try {
-    const data = await fetchDataWithRetry(url)
-    handleTemperatureForecast(data)
-    handlePrecipitationForecast(data)
-  } catch (error) {
-    console.error('Error fetching weather data:', error)
-    errorGettingWeather()
-  }
-}
-
-async function handleAlert(url) {
-  try {
-    const data = await fetchDataWithRetry(url)
-    if (data.features.length !== 0) {
-      if (data.features.match(/.*(winter).*(warning).*/i)) {
-        document.getElementById('warning').checked = true
-      } else if (data.features.match(/.*(winter).*(advisory).*/i)) {
-        document.getElementById('advisory').checked = true
-      }
-    } else {
-      document.getElementById('no-alert').checked = true
+  if (data.properties.periods[1].name === 'Tonight') {
+    tonightHasForecast = true
+    if (day === 'tomorrow') {
+      forecastOfDay = data.properties.periods[2]
     }
-  } catch (error) {
-    console.error('Error fetching weather data:', error)
+  }
+
+  if (forecastOfDay.detailedForecast) {
+    const minInchesRegex = /(\d+)\s*to\s*\d+\s*(?:inch|inches)\b/
+    let matchArray = forecastOfDay.detailedForecast.match(minInchesRegex)
+
+    if (matchArray && matchArray.length > 1) {
+      let match = parseInt(matchArray[1])
+      console.log(`during the day inches are: ${match}`)
+
+      if (day === 'today' && tonightHasForecast) {
+        let tonightMatchArray =
+          data.properties.periods[1].detailedForecast.match(minInchesRegex)
+        if (tonightMatchArray && tonightMatchArray.length > 1) {
+          const tonightInches = parseInt(tonightMatchArray[1])
+          console.log(`tonight's inches are ${tonightInches}`)
+          match += tonightInches
+          console.log(`today's inches (including tonight) is now ${match}`)
+        }
+      }
+      document.querySelector(container).value = match
+      console.log(
+        `Forecast has minimum of snow of ${match} for ${forecastOfDay.name}`
+      )
+    } else {
+      console.log(
+        `No inches of snow found in detailedForecast for ${forecastOfDay.name}`
+      )
+    }
+  } else {
+    console.log('forecastOfDay.detailedForecast is null or undefined.')
     errorGettingWeather()
   }
 }
@@ -111,6 +115,47 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   }
 }
 
+async function handleForecastHourly(url) {
+  try {
+    const data = await fetchDataWithRetry(url)
+    handleTemperatureForecast(data)
+    handlePrecipitationForecast(data)
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    errorGettingWeather()
+  }
+}
+
+async function handleAlert(url) {
+  try {
+    const data = await fetchDataWithRetry(url)
+    const alertText = data.features[0].properties
+
+    // Parse the expiration time and current time
+    const expirationTime = new Date(alertText.expires)
+    const currentTime = new Date()
+
+    // Calculate 6am tomorrow
+    const tomorrow = new Date(currentTime)
+    tomorrow.setDate(currentTime.getDate() + 1)
+    tomorrow.setHours(6, 0, 0, 0)
+
+    // Check if the advisory is still active at 6am tomorrow
+    if (expirationTime > tomorrow) {
+      if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
+        document.getElementById('warning').checked = true
+      } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
+        document.getElementById('advisory').checked = true
+      }
+    } else {
+      document.getElementById('no-alert').checked = true
+    }
+  } catch (error) {
+    console.error('Error fetching weather data:', error)
+    errorGettingWeather()
+  }
+}
+
 async function getWeather(e) {
   e.preventDefault()
   document.getElementById('forecast-error').innerHTML = ''
@@ -120,13 +165,12 @@ async function getWeather(e) {
   const alertUrl = Urls[1]
   try {
     const initialData = await fetchDataWithRetry(weatherUrl)
-    console.log(initialData)
     const forecastHourlyUrl = initialData.properties.forecastHourly
     const forecastUrl = initialData.properties.forecast
 
     const forecastData = await fetchDataWithRetry(forecastUrl)
-    handleSnow(forecastData, 0, '#snow-today')
-    handleSnow(forecastData, 1, '#snow-tomorrow')
+    handleSnow(forecastData, 'today', '#snow-today')
+    handleSnow(forecastData, 'tomorrow', '#snow-tomorrow')
 
     await handleForecastHourly(forecastHourlyUrl)
   } catch (error) {
