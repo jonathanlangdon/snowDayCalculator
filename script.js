@@ -184,11 +184,53 @@ async function getWeather(e) {
   }
   await handleAlert(alertUrl)
 }
+
+function returnRandomWaitMessage() {
+  const snowDayMessages = [
+    'Measuring snow flakes...',
+    "Contacting Santa's Elves...",
+    'Putting thumb in air...',
+    'Consulting the penguins...',
+    "Synchronizing with the Yeti's calendar...",
+    "Cross-referencing with Frosty's schedule...",
+    'Chilling the algorithms...',
+    'Knitting some code into a winter scarf...',
+    'Ice-proofing the results...',
+    'Tuning into the polar forecast...',
+    'Shaking the snow globe for answers...',
+    'Gathering intel from the igloos...',
+    'Cozying up to the data fireside...',
+    'Brewing a hot chocolate calculation...',
+    'Asking the magic snowball...',
+    'Consulting the snow elves...',
+    'Warming up the number cruncher...',
+    'Slipping and sliding through data...',
+    'Commissioning the snow plows...',
+    'Whistling for the northern winds...',
+    "Checking the squirrel's nut stockpile...",
+    'Waking up the hibernating algorithms...',
+    'Defrosting the prediction engine...',
+    'Waiting for the snowman to nod...',
+    'Deciphering the snowflake patterns...',
+    "Interpreting the Aurora Borealis' opinion...",
+    'Zamboni-ing the data lake...',
+    'Building an igloo of possibilities...'
+  ]
+  return snowDayMessages[Math.floor(Math.random() * snowDayMessages.length)]
+}
+
+function calcWaitingMessage() {
+  document.getElementById('below-calculator-div').innerText =
+    returnRandomWaitMessage()
+}
+
 async function handleSnowSubmit(e) {
   e.preventDefault()
   try {
+    calcWaitingMessage()
     const formData = getFormData(e.target)
     const data = await fetchData('/calc', formData)
+    document.getElementById('below-calculator-div').innerText = ''
     updateModal(data)
   } catch (error) {
     console.error('Error during operation: ', error)

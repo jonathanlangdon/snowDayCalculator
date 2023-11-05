@@ -47,8 +47,8 @@ a {
   }
 }
 
-#loading-message p {
-  animation: flash 1s infinite;
+.flashing {
+  animation: flash 2s infinite;
 }
 
 .small-text {
