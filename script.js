@@ -222,10 +222,9 @@ function returnRandomWaitMessage() {
 function calcWaitingMessage() {
   document.getElementById('below-calculator-div').innerText =
     returnRandomWaitMessage()
-  setTimeout(
-    (document.getElementById('below-calculator-div').innerText = ''),
-    10000
-  )
+  setTimeout(function () {
+    document.getElementById('below-calculator-div').innerText = ''
+  }, 10000)
 }
 
 async function handleSnowSubmit(e) {
