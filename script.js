@@ -230,7 +230,6 @@ async function handleSnowSubmit(e) {
     calcWaitingMessage()
     const formData = getFormData(e.target)
     const data = await fetchData('/calc', formData)
-    document.getElementById('below-calculator-div').innerText = ''
     updateModal(data)
   } catch (error) {
     console.error('Error during operation: ', error)
@@ -347,6 +346,12 @@ function init() {
 
   const calculateSnowBtn = document.getElementById('calculator-form')
   calculateSnowBtn.addEventListener('submit', handleSnowSubmit)
+
+  const closeModalBtn = document.getElementById('close-modal')
+  closeModalBtn.addEventListener(
+    'click',
+    (document.getElementById('below-calculator-div').innerText = '')
+  )
 }
 
 init()
