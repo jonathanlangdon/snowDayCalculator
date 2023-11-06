@@ -222,6 +222,10 @@ function returnRandomWaitMessage() {
 function calcWaitingMessage() {
   document.getElementById('below-calculator-div').innerText =
     returnRandomWaitMessage()
+  setTimeout(
+    (document.getElementById('below-calculator-div').innerText = ''),
+    10000
+  )
 }
 
 async function handleSnowSubmit(e) {
@@ -346,12 +350,6 @@ function init() {
 
   const calculateSnowBtn = document.getElementById('calculator-form')
   calculateSnowBtn.addEventListener('submit', handleSnowSubmit)
-
-  const closeModalBtn = document.getElementById('resultModal')
-  closeModalBtn.addEventListener(
-    'click',
-    (document.getElementById('below-calculator-div').innerText = '')
-  )
 }
 
 init()
