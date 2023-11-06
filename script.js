@@ -347,7 +347,7 @@ function init() {
   const calculateSnowBtn = document.getElementById('calculator-form')
   calculateSnowBtn.addEventListener('submit', handleSnowSubmit)
 
-  const closeModalBtn = document.getElementById('close-modal')
+  const closeModalBtn = document.getElementById('resultModal')
   closeModalBtn.addEventListener(
     'click',
     (document.getElementById('below-calculator-div').innerText = '')
