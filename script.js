@@ -224,7 +224,7 @@ function calcWaitingMessage() {
     returnRandomWaitMessage()
   setTimeout(function () {
     document.getElementById('below-calculator-div').innerText = ''
-  }, 10000)
+  }, 7000)
 }
 
 async function handleSnowSubmit(e) {
@@ -326,16 +326,30 @@ function usePreviousLocation() {
   })
 }
 
+function successLocation(position) {
+  const latitude = position.coords.latitude
+  const longitude = position.coords.longitude
+  document.getElementById('latitude').value = latitude
+  document.getElementById('longitude').value = longitude
+  localStorage.setItem('latitude', latitude)
+  localStorage.setItem('longitude', longitude)
+}
+
+function errorLocation(error) {
+  console.log(`Error: ${error.code} - ${error.message}`)
+}
+
+const locationOptions = {
+  timeout: 5000
+}
+
 function getUserLocation(e) {
   e.preventDefault()
-  navigator.geolocation.getCurrentPosition(function (position) {
-    const latitude = position.coords.latitude
-    const longitude = position.coords.longitude
-    document.getElementById('latitude').value = latitude
-    document.getElementById('longitude').value = longitude
-    localStorage.setItem('latitude', latitude)
-    localStorage.setItem('longitude', longitude)
-  })
+  navigator.geolocation.getCurrentPosition(
+    successLocation,
+    errorLocation,
+    locationOptions
+  )
 }
 
 function init() {
