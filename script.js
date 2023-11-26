@@ -162,6 +162,7 @@ async function handleAlert(url) {
 
 async function getWeather(e) {
   e.preventDefault()
+  calcWaitingMessage()
   document.getElementById('forecast-error').innerHTML = ''
   document.getElementById('loading-message').style.display = 'block'
   const Urls = getWeatherUrl()
@@ -184,6 +185,7 @@ async function getWeather(e) {
     document.getElementById('loading-message').style.display = 'none'
   }
   await handleAlert(alertUrl)
+  document.getElementById('calculate-snow').click()
 }
 
 function returnRandomWaitMessage() {
@@ -231,7 +233,6 @@ function calcWaitingMessage() {
 async function handleSnowSubmit(e) {
   e.preventDefault()
   try {
-    calcWaitingMessage()
     const formData = getFormData(e.target)
     const data = await fetchData('/calc', formData)
     updateModal(data)
