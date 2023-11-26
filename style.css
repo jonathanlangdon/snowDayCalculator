@@ -17,6 +17,10 @@ main {
   margin-top: 20px;
 }
 
+#cookie-agree {
+  margin-right: 5px;
+}
+
 #full-height {
   height: 100vh;
 }
