@@ -10,6 +10,7 @@ function displayError(message) {
 }
 
 // Good test URL for API: https://api.weather.gov/points/43,-86
+// Forecast URL: https://api.weather.gov/gridpoints/GRR/30,48/forecast
 // Alert URL test: https://api.weather.gov/alerts/active?point=43,-86
 function getWeatherUrl() {
   const latitude = document.getElementById('latitude').value
@@ -127,7 +128,7 @@ async function handleForecastHourly(url) {
   }
 }
 
-function tomorrowDate() {
+function tomorrowDate(currentTime) {
   const tomorrow = new Date(currentTime)
   tomorrow.setDate(currentTime.getDate() + 1)
   tomorrow.setHours(6, 0, 0, 0)
@@ -142,7 +143,7 @@ async function handleAlert(url) {
     const expirationTime = new Date(alertText.expires)
     const currentTime = new Date()
 
-    tomorrow = tomorrowDate()
+    tomorrow = tomorrowDate(currentTime)
 
     if (expirationTime > tomorrow) {
       if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
