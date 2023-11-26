@@ -9,8 +9,12 @@ body {
 
 main {
   background-color: rgb(255, 255, 255, 0.8);
-  border-radius: 10px;
+  border-radius: 30px;
   min-width: 400px;
+}
+
+#cookie-box {
+  margin-top: 20px;
 }
 
 #full-height {

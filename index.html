@@ -10,9 +10,9 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" type="text/css" href="style.css?v=1.09" />
+    <link rel="stylesheet" type="text/css" href="style.css?v=1.10" />
 
-    <script defer src="script.js?v=1.34"></script>
+    <script defer src="script.js?v=1.35"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -27,6 +27,12 @@
           Default Location: Fruitport, MI
         </p>
         <form id="location-getter" class="text-center location-services">
+          <div id="cookie-box">
+            <label for="cookie-agree" class="small"
+              ><input type="checkbox" name="cookie-agree" id="cookie-agree" />
+              Agree to cookies and save for future sessions</label
+            >
+          </div>
           <div class="text-center">
             <button class="btn-info main-buttons" type="submit">
               Get your location

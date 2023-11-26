@@ -336,8 +336,11 @@ function successLocation(position) {
   const longitude = position.coords.longitude
   document.getElementById('latitude').value = latitude
   document.getElementById('longitude').value = longitude
-  localStorage.setItem('latitude', latitude)
-  localStorage.setItem('longitude', longitude)
+  const cookieAgreed = document.getElementById('cookie-agree').checked
+  if (cookieAgreed) {
+    localStorage.setItem('latitude', latitude)
+    localStorage.setItem('longitude', longitude)
+  }
 }
 
 function errorLocation(error) {
