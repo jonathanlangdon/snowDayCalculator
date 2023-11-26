@@ -128,7 +128,7 @@ async function handleForecastHourly(url) {
   }
 }
 
-function tomorrowDate(currentTime) {
+function tomorrowDecisionTime(currentTime) {
   const tomorrow = new Date(currentTime)
   tomorrow.setDate(currentTime.getDate() + 1)
   tomorrow.setHours(6, 0, 0, 0)
@@ -140,10 +140,10 @@ async function handleAlert(url) {
     const data = await fetchDataWithRetry(url)
     if (!data.features[0]) return
     const alertText = data.features[0].properties
-    const expirationTime = new Date(alertText.expires)
+    const expirationTime = new Date(alertText.ends)
     const currentTime = new Date()
 
-    tomorrow = tomorrowDate(currentTime)
+    tomorrow = tomorrowDecisionTime(currentTime)
 
     if (expirationTime > tomorrow) {
       if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
