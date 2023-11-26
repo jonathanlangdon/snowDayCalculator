@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="graphics/favicon.png?v=1.01" />
     <link rel="icon" type="image/x-icon" href="graphics/favicon.ico?v=1.01" />
     <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
 
@@ -14,219 +14,221 @@
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
-    <main class="w-50 m-auto">
-      <h1 class="text-center">West Michigan Snow Day Calculator</h1>
-      <p class="font-italic text-center small-text location-services">
-        Default Location: Fruitport, MI
-      </p>
-      <form id="location-getter" class="text-center location-services">
-        <div class="text-center">
-          <button class="btn-info main-buttons" type="submit">
-            Get your location
-          </button>
-        </div>
-      </form>
-      <form id="get-forecast-form" class="text-center">
-        <div class="location-services">
-          <div>
-            <label for="latitude">Latitude:</label>
-            <input
-              type="number"
-              name="latitude"
-              id="latitude"
-              value=""
-              min="35.0"
-              max="49.0"
-              step="0.00000000000000001"
-            />
-          </div>
-          <div>
-            <label for="longitude">Longitude:</label>
-            <input
-              type="number"
-              name="longitude"
-              id="longitude"
-              value=""
-              min="-104.0"
-              max="-66.0"
-              step="0.00000000000000001"
-            />
-          </div>
-        </div>
-        <p id="prev-location-text">
-          Using location from previous session
-          <br /><i>
-            <a href="#" id="change-location-link" class="under-link"
-              >change location</a
-            >
-          </i>
+    <div id="full-height" class="d-flex align-items-center">
+      <main class="w-50 m-auto">
+        <h1 class="text-center">West Michigan Snow Day Calculator</h1>
+        <p class="font-italic text-center small-text location-services">
+          Default Location: Fruitport, MI
         </p>
-        <div class="text-center">
-          <button class="btn-primary main-buttons" type="submit">
-            Calculate Tomorrow's Chance
-          </button>
-
-          <div
-            class="flashing text-center font-italic"
-            id="below-calculator-div"
-          ></div>
-          <p id="forecast-error"></p>
-          <div
-            id="loading-message"
-            class="flashing text-center"
-            style="display: none"
-          >
-            <p>Loading...</p>
+        <form id="location-getter" class="text-center location-services">
+          <div class="text-center">
+            <button class="btn-info main-buttons" type="submit">
+              Get your location
+            </button>
           </div>
+        </form>
+        <form id="get-forecast-form" class="text-center">
+          <div class="location-services">
+            <div>
+              <label for="latitude">Latitude:</label>
+              <input
+                type="number"
+                name="latitude"
+                id="latitude"
+                value=""
+                min="35.0"
+                max="49.0"
+                step="0.00000000000000001"
+              />
+            </div>
+            <div>
+              <label for="longitude">Longitude:</label>
+              <input
+                type="number"
+                name="longitude"
+                id="longitude"
+                value=""
+                min="-104.0"
+                max="-66.0"
+                step="0.00000000000000001"
+              />
+            </div>
+          </div>
+          <p id="prev-location-text" class="small font-italic">
+            Using location from previous session
+            <br /><i>
+              <a href="#" id="change-location-link" class="under-link"
+                >change location</a
+              >
+            </i>
+          </p>
+          <div class="text-center">
+            <button class="btn-primary main-buttons" type="submit">
+              Calculate Tomorrow's Chance
+            </button>
+
+            <div
+              class="flashing text-center font-italic"
+              id="below-calculator-div"
+            ></div>
+            <p id="forecast-error"></p>
+            <div
+              id="loading-message"
+              class="flashing text-center"
+              style="display: none"
+            >
+              <p>Loading...</p>
+            </div>
+          </div>
+        </form>
+        <div class="d-none text-center" id="manualweather">
+          <a
+            href="https://www.wunderground.com/forecast/us/mi/muskegon-county/KMKG"
+            target="_blank"
+            class="under-link"
+            >Manually get weather</a
+          >
         </div>
-      </form>
-      <div class="d-none text-center" id="manualweather">
-        <a
-          href="https://www.wunderground.com/forecast/us/mi/muskegon-county/KMKG"
-          target="_blank"
-          class="under-link"
-          >Manually get weather</a
+        <form id="calculator-form" class="d-none text-center">
+          <div>
+            <label for="snow-today">Inches Snow Today:</label>
+            <input
+              type="number"
+              name="snow-today"
+              id="snow-today"
+              value=""
+              min="0"
+              max="100"
+              step="0.1"
+              required
+            />
+          </div>
+          <div>
+            <label for="snow-tomorrow">Inches Snow Tomorrow:</label>
+            <input
+              type="number"
+              name="snow-tomorrow"
+              id="snow-tomorrow"
+              value=""
+              min="0"
+              max="100"
+              step="0.1"
+              required
+            />
+          </div>
+          <div>
+            <label for="precip">% Precipitation at 5am:</label>
+            <input
+              type="number"
+              name="precip"
+              id="precip"
+              value=""
+              min="0"
+              max="100"
+              step="1"
+              required
+            />
+          </div>
+          <div>
+            <label for="temp">Feel-like 7am Temp:</label>
+            <input
+              type="number"
+              name="temp"
+              id="temp"
+              value=""
+              min="-100"
+              max="100"
+              step="1"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Weather Alert Status for Tomorrow</label>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="alert"
+                id="no-alert"
+                value="none"
+                checked
+              />
+              <label class="form-check-label" for="no-alert"> No alert </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="alert"
+                id="advisory"
+                value="advisory"
+              />
+              <label class="form-check-label" for="advisory"> Advisory </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="alert"
+                id="warning"
+                value="warning"
+              />
+              <label class="form-check-label" for="warning"> Warning </label>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button
+              id="calculate-snow"
+              class="btn-primary main-buttons"
+              type="submit"
+            >
+              Calculate Chance of Snow Day
+            </button>
+          </div>
+        </form>
+
+        <!-- Modal pop-up -->
+        <div
+          class="modal fade"
+          id="resultModal"
+          tabindex="-1"
+          aria-labelledby="resultModalLabel"
+          aria-hidden="true"
         >
-      </div>
-      <form id="calculator-form" class="d-none text-center">
-        <div>
-          <label for="snow-today">Inches Snow Today:</label>
-          <input
-            type="number"
-            name="snow-today"
-            id="snow-today"
-            value=""
-            min="0"
-            max="100"
-            step="0.1"
-            required
-          />
-        </div>
-        <div>
-          <label for="snow-tomorrow">Inches Snow Tomorrow:</label>
-          <input
-            type="number"
-            name="snow-tomorrow"
-            id="snow-tomorrow"
-            value=""
-            min="0"
-            max="100"
-            step="0.1"
-            required
-          />
-        </div>
-        <div>
-          <label for="precip">% Precipitation at 5am:</label>
-          <input
-            type="number"
-            name="precip"
-            id="precip"
-            value=""
-            min="0"
-            max="100"
-            step="1"
-            required
-          />
-        </div>
-        <div>
-          <label for="temp">Feel-like 7am Temp:</label>
-          <input
-            type="number"
-            name="temp"
-            id="temp"
-            value=""
-            min="-100"
-            max="100"
-            step="1"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Weather Alert Status for Tomorrow</label>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="alert"
-              id="no-alert"
-              value="none"
-              checked
-            />
-            <label class="form-check-label" for="no-alert"> No alert </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="alert"
-              id="advisory"
-              value="advisory"
-            />
-            <label class="form-check-label" for="advisory"> Advisory </label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="alert"
-              id="warning"
-              value="warning"
-            />
-            <label class="form-check-label" for="warning"> Warning </label>
-          </div>
-        </div>
-
-        <div class="text-center">
-          <button
-            id="calculate-snow"
-            class="btn-primary main-buttons"
-            type="submit"
-          >
-            Calculate Chance of Snow Day
-          </button>
-        </div>
-      </form>
-
-      <!-- Modal pop-up -->
-      <div
-        class="modal fade"
-        id="resultModal"
-        tabindex="-1"
-        aria-labelledby="resultModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title mx-auto" id="resultModalLabel">
-                Tomorrow's Snow Day Chance
-              </h4>
-            </div>
-            <div class="modal-body" id="modalBody">
-              <h4 class="text-center" id="chance-calculation"></h4>
-              <p class="text-center" id="text-interpretation"></p>
-            </div>
-            <div class="modal-footer">
-              <p
-                class="font-italic text-center m-auto rounded w-auto small font-weight-bold"
-              >
-                Note: does not predict ice days or other irregular events
-                causing snow days
-              </p>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title mx-auto" id="resultModalLabel">
+                  Tomorrow's Snow Day Chance
+                </h4>
+              </div>
+              <div class="modal-body" id="modalBody">
+                <h4 class="text-center" id="chance-calculation"></h4>
+                <p class="text-center" id="text-interpretation"></p>
+              </div>
+              <div class="modal-footer">
+                <p
+                  class="font-italic text-center m-auto rounded w-auto small font-weight-bold"
+                >
+                  Note: does not predict ice days or other irregular events
+                  causing snow days
+                </p>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </main>
-    <script src="script.js?v=1.30"></script>
+      </main>
+    </div>
+    <script src="script.js?v=1.32"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
