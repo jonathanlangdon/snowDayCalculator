@@ -164,7 +164,6 @@ async function getWeather(e) {
   e.preventDefault()
   calcWaitingMessage()
   document.getElementById('forecast-error').innerHTML = ''
-  document.getElementById('loading-message').style.display = 'block'
   const Urls = getWeatherUrl()
   const weatherUrl = Urls[0]
   const alertUrl = Urls[1]
@@ -227,7 +226,7 @@ function calcWaitingMessage() {
     returnRandomWaitMessage()
   setTimeout(function () {
     document.getElementById('below-calculator-div').innerText = ''
-  }, 7000)
+  }, 10000)
 }
 
 async function handleSnowSubmit(e) {
@@ -241,6 +240,10 @@ async function handleSnowSubmit(e) {
     showErrorModal()
   }
   showModal('resultModal')
+  setTimeout(
+    () => (document.getElementById('below-calculator-div').innerText = ''),
+    2000
+  )
 }
 
 function getFormData(form) {
