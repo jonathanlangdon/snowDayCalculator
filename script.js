@@ -310,22 +310,26 @@ function usePreviousLocation() {
   let prevLocationText = document.getElementById('prev-location-text')
   let changeLocationLink = document.getElementById('change-location-link')
   let locationServices = document.querySelectorAll('.location-services')
+  let cookieCheckbox = document.querySelectorAll('.cookie-checkbox')
 
   if (localStorage.latitude && localStorage.longitude) {
     formLatitude.value = localStorage.latitude
     formLongitude.value = localStorage.longitude
     locationServices.forEach(x => (x.style.display = 'none'))
+    cookieCheckbox.forEach(x => (x.style.display = 'none'))
     prevLocationText.style.display = 'block'
   } else {
     formLatitude.value = 43.144
     formLongitude.value = -86.17
     locationServices.forEach(x => (x.style.display = 'block'))
+    cookieCheckbox.forEach(x => (x.style.display = 'inline'))
     prevLocationText.style.display = 'none'
   }
 
   changeLocationLink.addEventListener('click', function (e) {
     e.preventDefault()
     locationServices.forEach(x => (x.style.display = 'block'))
+    cookieCheckbox.forEach(x => (x.style.display = 'inline'))
     prevLocationText.style.display = 'none'
     changeLocationLink.style.display = 'none'
   })
