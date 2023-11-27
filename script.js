@@ -310,26 +310,30 @@ function usePreviousLocation() {
   let prevLocationText = document.getElementById('prev-location-text')
   let changeLocationLink = document.getElementById('change-location-link')
   let locationServices = document.querySelectorAll('.location-services')
-  let cookieCheckbox = document.querySelectorAll('.cookie-checkbox')
+  const cookieAgree = document.getElementById('cookie-agree')
+  const cookieLabel = document.getElementById('cookie-label')
 
   if (localStorage.latitude && localStorage.longitude) {
     formLatitude.value = localStorage.latitude
     formLongitude.value = localStorage.longitude
     locationServices.forEach(x => (x.style.display = 'none'))
-    cookieCheckbox.forEach(x => (x.style.display = 'none'))
+    cookieAgree.style.display = 'none'
+    cookieLabel.style.display = 'none'
     prevLocationText.style.display = 'block'
   } else {
     formLatitude.value = 43.144
     formLongitude.value = -86.17
     locationServices.forEach(x => (x.style.display = 'block'))
-    cookieCheckbox.forEach(x => (x.style.display = 'inline'))
+    cookieAgree.style.display = 'inline'
+    cookieLabel.style.display = 'inline'
     prevLocationText.style.display = 'none'
   }
 
   changeLocationLink.addEventListener('click', function (e) {
     e.preventDefault()
     locationServices.forEach(x => (x.style.display = 'block'))
-    cookieCheckbox.forEach(x => (x.style.display = 'inline'))
+    cookieAgree.style.display = 'inline'
+    cookieLabel.style.display = 'inline'
     prevLocationText.style.display = 'none'
     changeLocationLink.style.display = 'none'
   })
