@@ -37,6 +37,7 @@ function handleTemperatureForecast(data) {
       35.75 * wind7am ** 0.16 +
       0.4275 * temp7am * wind7am ** 0.16
     document.getElementById('temp').value = feelLikeTemp.toFixed(0)
+    console.log(`Tomorrow Feel-like: ${temp7am}`)
   } else {
     document.getElementById('temp').value = ''
     displayError('|| No forecast available for 7am tomorrow ||')
@@ -154,6 +155,7 @@ async function handleAlert(url) {
     } else {
       document.getElementById('no-alert').checked = true
     }
+    console.log(`Alert: ${alertText.headline}`)
   } catch (error) {
     console.error('Error fetching alert data:', error)
     errorGettingWeather()
@@ -305,35 +307,35 @@ function showModal(modalId) {
 
 // Use previously obtained location
 function usePreviousLocation() {
-  let formLatitude = document.getElementById('latitude')
-  let formLongitude = document.getElementById('longitude')
-  let prevLocationText = document.getElementById('prev-location-text')
-  let changeLocationLink = document.getElementById('change-location-link')
-  let locationServices = document.querySelectorAll('.location-services')
-  const cookieAgree = document.getElementById('cookie-agree')
-  const cookieLabel = document.getElementById('cookie-label')
+  const formLatitude = document.getElementById('latitude')
+  const formLongitude = document.getElementById('longitude')
+  const prevLocationText = document.getElementById('prev-location-text')
+  const changeLocationLink = document.getElementById('change-location-link')
+  const locationServices = document.querySelectorAll('.location-services')
+  const checkBoxLine = document.getElementById('checkbox-line')
+  const checkboxLabel = document.getElementById('cookie-label')
+  const inputCheckbox = document.createElement('input')
+  inputCheckbox.setAttribute('type', 'checkbox')
+  inputCheckbox.setAttribute('name', 'cookie-agreed')
+  inputCheckbox.setAttribute('id', 'cookie-agree')
 
   if (localStorage.latitude && localStorage.longitude) {
     formLatitude.value = localStorage.latitude
     formLongitude.value = localStorage.longitude
     locationServices.forEach(x => (x.style.display = 'none'))
-    cookieAgree.style.display = 'none'
-    cookieLabel.style.display = 'none'
     prevLocationText.style.display = 'block'
   } else {
     formLatitude.value = 43.144
     formLongitude.value = -86.17
     locationServices.forEach(x => (x.style.display = 'block'))
-    cookieAgree.style.display = 'inline'
-    cookieLabel.style.display = 'inline'
+    checkBoxLine.insertBefore(inputCheckbox, checkboxLabel)
     prevLocationText.style.display = 'none'
   }
 
   changeLocationLink.addEventListener('click', function (e) {
     e.preventDefault()
     locationServices.forEach(x => (x.style.display = 'block'))
-    cookieAgree.style.display = 'inline'
-    cookieLabel.style.display = 'inline'
+    checkBoxLine.insertBefore(inputCheckbox, checkboxLabel)
     prevLocationText.style.display = 'none'
     changeLocationLink.style.display = 'none'
   })

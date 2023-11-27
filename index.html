@@ -17,29 +17,33 @@
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     ></script>
+    <script
+      defer
+      src="https://kit.fontawesome.com/dd91a4c4fb.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
     <div id="full-height" class="d-flex align-items-center">
       <main class="w-50 m-auto">
+        <div class="text-center"><image src="graphics/michigan.png" /></div>
         <h1 class="text-center">West Michigan Snow Day Calculator</h1>
         <p class="font-italic text-center small-text location-services">
           Default Location: Fruitport, MI
         </p>
         <form id="location-getter" class="text-center m-3">
-          <input
-            type="checkbox"
-            name="cookie-agreed"
-            id="cookie-agree"
-            class="cookie-checkbox"
-          /><label for="cookie-agree" id="cookie-label" class="cookie-checkbox">
-            Agree to cookies and save your location</label
-          >
+          <div id="checkbox-line" class="location-services">
+            <label for="cookie-agree" id="cookie-label">
+              Agree to cookies<i class="fa-solid fa-cookie-bite"></i> and save
+              your location</label
+            >
+          </div>
           <button
             class="btn-info main-buttons m-auto location-services"
             type="submit"
           >
-            Get your location
+            <i class="fa-solid fa-location-dot"></i> Get your location
           </button>
         </form>
         <form id="get-forecast-form" class="text-center">
@@ -73,12 +77,13 @@
             Using location from previous session
             <br /><i>
               <a href="#" id="change-location-link" class="under-link"
-                >change location</a
+                ><i class="fa-solid fa-location-dot"></i> change location</a
               >
             </i>
           </p>
           <div class="text-center">
             <button class="btn-primary main-buttons" type="submit">
+              <i class="fa-solid fa-snowflake fa-beat-fade"></i>
               Calculate Tomorrow's Chance
             </button>
 
@@ -199,7 +204,7 @@
               class="btn-primary main-buttons"
               type="submit"
             >
-              Calculate Chance of Snow Day
+              Hidden button to calculate snowday
             </button>
           </div>
         </form>
