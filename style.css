@@ -13,15 +13,11 @@ main {
   min-width: 400px;
 }
 
-#cookie-box {
-  margin-top: 20px;
-}
-
-#cookie-agree {
+#save-agree {
   margin-right: 5px;
 }
 
-#cookie-label {
+#save-label {
   font-size: small;
 }
 

@@ -77,7 +77,6 @@ function handleSnow(data, day, container) {
 
     if (matchArray && matchArray.length > 1) {
       let match = parseInt(matchArray[1])
-      console.log(`during the day inches are: ${match}`)
 
       if (day === 'today' && tonightHasForecast) {
         let tonightMatchArray =
@@ -231,6 +230,17 @@ function calcWaitingMessage() {
   }, 10000)
 }
 
+function showCalcFactors() {
+  const todaySnow = document.getElementById('snow-today').value
+  const tomorrowSnow = document.getElementById('snow-tomorrow').value
+  const totalSnow = todaySnow + tomorrowSnow
+  const temp7am = document.getElementById('temp').value
+  const alert = document.querySelector('input[name="choice"]:checked').value
+  constFactors = `Key factors for Forecast: Weather Alert: ${alert}${
+    totalSnow > 0 ? `, snow possible: ${totalSnow} inches` : ''
+  }${temp7am < 0 ? `, feel-like temp of ${temp7am} degrees` : ''}`
+}
+
 async function handleSnowSubmit(e) {
   e.preventDefault()
   try {
@@ -241,6 +251,7 @@ async function handleSnowSubmit(e) {
     console.error('Error during operation: ', error)
     showErrorModal()
   }
+  showCalcFactors()
   showModal('resultModal')
   setTimeout(
     () => (document.getElementById('below-calculator-div').innerText = ''),
@@ -301,7 +312,7 @@ function showErrorModal() {
 }
 
 function showModal(modalId) {
-  var resultModal = new bootstrap.Modal(document.getElementById(modalId))
+  const resultModal = new bootstrap.Modal(document.getElementById(modalId))
   resultModal.show()
 }
 
@@ -313,11 +324,11 @@ function usePreviousLocation() {
   const changeLocationLink = document.getElementById('change-location-link')
   const locationServices = document.querySelectorAll('.location-services')
   const checkBoxLine = document.getElementById('checkbox-line')
-  const checkboxLabel = document.getElementById('cookie-label')
+  const checkboxLabel = document.getElementById('save-label')
   const inputCheckbox = document.createElement('input')
   inputCheckbox.setAttribute('type', 'checkbox')
-  inputCheckbox.setAttribute('name', 'cookie-agreed')
-  inputCheckbox.setAttribute('id', 'cookie-agree')
+  inputCheckbox.setAttribute('name', 'save-agreed')
+  inputCheckbox.setAttribute('id', 'save-agree')
 
   if (localStorage.latitude && localStorage.longitude) {
     formLatitude.value = localStorage.latitude
