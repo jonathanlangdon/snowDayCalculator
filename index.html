@@ -38,6 +38,7 @@
         </p>
         <form id="location-getter" class="text-center m-3">
           <div id="checkbox-line" class="location-services">
+            <input type="checkbox" name="save-agreed" id="save-agree" />
             <label for="save-agree" id="save-label">
               Agree to local storage and save your location</label
             >
@@ -78,10 +79,9 @@
           </div>
           <p id="prev-location-text" class="small font-italic">
             Using location from previous session
-            <br /><i class="fa-solid fa-location-dot"></i
-            ><i>
+            <br /><i>
               <a href="#" id="change-location-link" class="under-link">
-                change location</a
+                <i class="fa-solid fa-location-dot"></i> change location</a
               >
             </i>
           </p>

@@ -332,12 +332,6 @@ function usePreviousLocation() {
   const prevLocationText = document.getElementById('prev-location-text')
   const changeLocationLink = document.getElementById('change-location-link')
   const locationServices = document.querySelectorAll('.location-services')
-  const checkBoxLine = document.getElementById('checkbox-line')
-  const checkboxLabel = document.getElementById('save-label')
-  const inputCheckbox = document.createElement('input')
-  inputCheckbox.setAttribute('type', 'checkbox')
-  inputCheckbox.setAttribute('name', 'save-agreed')
-  inputCheckbox.setAttribute('id', 'save-agree')
 
   if (localStorage.latitude && localStorage.longitude) {
     formLatitude.value = localStorage.latitude
@@ -348,14 +342,12 @@ function usePreviousLocation() {
     formLatitude.value = 43.144
     formLongitude.value = -86.17
     locationServices.forEach(x => (x.style.display = 'block'))
-    checkBoxLine.insertBefore(inputCheckbox, checkboxLabel)
     prevLocationText.style.display = 'none'
   }
 
   changeLocationLink.addEventListener('click', function (e) {
     e.preventDefault()
     locationServices.forEach(x => (x.style.display = 'block'))
-    checkBoxLine.insertBefore(inputCheckbox, checkboxLabel)
     prevLocationText.style.display = 'none'
     changeLocationLink.style.display = 'none'
   })
@@ -370,6 +362,9 @@ function successLocation(position) {
   if (saveAgree) {
     localStorage.setItem('latitude', latitude)
     localStorage.setItem('longitude', longitude)
+    console.log(
+      'Local Storage has been agreed to and geolocation has been saved'
+    )
   }
 }
 
