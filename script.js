@@ -231,14 +231,17 @@ function calcWaitingMessage() {
 }
 
 function showCalcFactors() {
-  const todaySnow = document.getElementById('snow-today').value
-  const tomorrowSnow = document.getElementById('snow-tomorrow').value
+  const todaySnow = parseInt(document.getElementById('snow-today').value)
+  const tomorrowSnow = parseInt(document.getElementById('snow-tomorrow').value)
   const totalSnow = todaySnow + tomorrowSnow
   const temp7am = document.getElementById('temp').value
-  const alert = document.querySelector('input[name="choice"]:checked').value
-  constFactors = `Key factors for Forecast: Weather Alert: ${alert}${
+  const alert = document.querySelector('input[name="alert"]:checked').value
+  constFactors = `Key factors: Weather Alert: ${alert}${
     totalSnow > 0 ? `, snow possible: ${totalSnow} inches` : ''
   }${temp7am < 0 ? `, feel-like temp of ${temp7am} degrees` : ''}`
+  const modalTarget = document.getElementById('calc-factors')
+  console.log(constFactors)
+  modalTarget.textContent = constFactors
 }
 
 async function handleSnowSubmit(e) {

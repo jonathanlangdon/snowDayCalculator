@@ -21,6 +21,11 @@ main {
   font-size: small;
 }
 
+#calc-factors {
+  font-weight: 200;
+  font-style: italic;
+}
+
 #full-height {
   height: 100vh;
 }
