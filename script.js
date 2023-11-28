@@ -236,12 +236,18 @@ function showCalcFactors() {
   const totalSnow = todaySnow + tomorrowSnow
   const temp7am = document.getElementById('temp').value
   const alert = document.querySelector('input[name="alert"]:checked').value
-  constFactors = `Key factors: Weather Alert: ${alert}${
-    totalSnow > 0 ? `, snow possible: ${totalSnow} inches` : ''
-  }${temp7am < 0 ? `, feel-like temp of ${temp7am} degrees` : ''}`
+  const snowFactor = `, a possible ${totalSnow} inches of snow`
+  const tempFactor = `, a feel-like temp of ${temp7am} degrees`
+  const snowText = `${totalSnow > 0 ? snowFactor : ''}`
+  const tempText = `${temp7am < 0 ? tempFactor : ''}`
+  const nonAlertFactors = snowText + tempText
+  let calcFactors = 'Key Factor: There is no Winter Weather Alert for tomorrow'
+  if (alert !== 'none') {
+    calcFactors = `Key Factors: There is a Winter Weather ${alert}${nonAlertFactors}`
+  }
   const modalTarget = document.getElementById('calc-factors')
-  console.log(constFactors)
-  modalTarget.textContent = constFactors
+  console.log(calcFactors)
+  modalTarget.textContent = calcFactors
 }
 
 async function handleSnowSubmit(e) {

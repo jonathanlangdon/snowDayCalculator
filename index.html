@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" type="text/css" href="style.css?v=1.17" />
 
-    <script defer src="script.js?v=1.45"></script>
+    <script defer src="script.js?v=1.46"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -26,7 +26,12 @@
   <body>
     <div id="full-height" class="d-flex align-items-center">
       <main class="w-50 m-auto">
-        <div class="text-center"><image src="graphics/michigan.png" /></div>
+        <div class="text-center">
+          <image
+            src="graphics/michigan.png"
+            alt="michigan with a snowflake on it"
+          />
+        </div>
         <h1 class="text-center">West Michigan Snow Day Calculator</h1>
         <p class="font-italic text-center small-text location-services">
           Default Location: Fruitport, MI
@@ -180,7 +185,7 @@
                 type="radio"
                 name="alert"
                 id="advisory"
-                value="advisory"
+                value="Advisory"
               />
               <label class="form-check-label" for="advisory"> Advisory </label>
             </div>
@@ -190,7 +195,7 @@
                 type="radio"
                 name="alert"
                 id="warning"
-                value="warning"
+                value="Warning"
               />
               <label class="form-check-label" for="warning"> Warning </label>
             </div>
