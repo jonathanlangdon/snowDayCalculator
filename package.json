@@ -1,0 +1,19 @@
+{
+  "name": "1snowdaycalculator",
+  "version": "1.0.0",
+  "description": "This application helps users predict snow days based on weather conditions.",
+  "main": "script.js",
+  "scripts": {
+    "test": "vitest --run --reporter verbose",
+    "test:watch": "vitest"
+  },
+  "keywords": [],
+  "author": "Jonathan Langdon",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^0.34.6"
+  },
+  "dependencies": {
+    "jsdom": "^23.0.1"
+  }
+}

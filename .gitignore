@@ -1,5 +1,12 @@
-**/0staging/
 **/serverSide/
 deploy.php
 .htaccess
 **/calc
+node_modules
+vitest.log.json
+coverage/
+.env
+.DS_Store
+npm-debug.log
+yarn-debug.log
+yarn-error.log
