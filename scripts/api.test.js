@@ -1,6 +1,6 @@
 import { it, expect, describe, beforeEach, afterEach } from 'vitest'
 import { JSDOM } from 'jsdom'
-import { handleTemperatureForecast } from './script.js'
+import { handleTemperatureForecast } from './api.js'
 
 const { window } = new JSDOM('<!doctype html><html><body></body></html>')
 global.document = window.document
@@ -21,7 +21,6 @@ describe('handleTemperatureForecast', () => {
   })
 
   it('should return the proper feel-like temp for given data', () => {
-    // Arrange
     const hourlyData = {
       properties: {
         periods: [
@@ -34,11 +33,7 @@ describe('handleTemperatureForecast', () => {
       }
     }
     const expectedResult = '3'
-
-    // Act
     const result = handleTemperatureForecast(hourlyData)
-
-    // Assert
     expect(tempElement.value).toBe(expectedResult)
   })
 })
