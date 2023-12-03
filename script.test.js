@@ -1,6 +1,6 @@
 import { it, expect, describe, beforeEach, afterEach } from 'vitest'
 import { JSDOM } from 'jsdom'
-import { handleTemperatureForecast } from './api.js'
+import { handleTemperatureForecast } from './script.js'
 
 const { window } = new JSDOM('<!doctype html><html><body></body></html>')
 global.document = window.document
