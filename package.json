@@ -4,16 +4,21 @@
   "description": "This application helps users predict snow days based on weather conditions.",
   "main": "script.js",
   "scripts": {
-    "test": "vitest --run --reporter verbose",
-    "test:watch": "vitest"
+    "test": "jest",
+    "test:watch": "jest"
   },
   "keywords": [],
   "author": "Jonathan Langdon",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
     "vitest": "^0.34.6"
   },
   "dependencies": {
+    "babel": "^6.23.0",
+    "jest": "^29.7.0",
     "jsdom": "^23.0.1"
   }
 }
