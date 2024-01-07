@@ -84,3 +84,9 @@ a {
 #manualweather {
   margin-bottom: 1em;
 }
+
+#forecast-error {
+  color: red;
+  font-size: smaller;
+  margin: 10px;
+}

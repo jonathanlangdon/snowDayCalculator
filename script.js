@@ -1,15 +1,10 @@
 import { getWeatherUrl } from './scripts/api.js';
+import { displayError } from './scripts/utility.js';
 
 function errorGettingWeather() {
   const errorMessage =
     'Error fetching weather data. Please check your internet connection or try again later.';
   displayError(errorMessage);
-}
-
-function displayError(message) {
-  document
-    .getElementById('below-calculator-div')
-    .insertAdjacentText('beforeend', message);
 }
 
 // get 7am Forecast for Temperature and return feel like temp
@@ -98,6 +93,9 @@ function handleSnow(data, day, container) {
 
 async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   for (let i = 0; i < maxRetries; i++) {
+    if (i >= 10) {
+      errorGettingWeather();
+    }
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error('Network response was not ok');
@@ -155,8 +153,8 @@ async function handleAlert(url) {
 
 async function getWeather(e) {
   e.preventDefault();
+  document.getElementById('forecast-error').innerText = '';
   calcWaitingMessage();
-  document.getElementById('forecast-error').innerHTML = '';
   const Urls = getWeatherUrl();
   const weatherUrl = Urls[0];
   const alertUrl = Urls[1];
@@ -223,23 +221,31 @@ function calcWaitingMessage() {
 }
 
 function showCalcFactors() {
-  const todaySnow = parseInt(document.getElementById('snow-today').value);
-  const tomorrowSnow = parseInt(document.getElementById('snow-tomorrow').value);
-  const totalSnow = todaySnow + tomorrowSnow;
-  const temp7am = document.getElementById('temp').value;
-  const alert = document.querySelector('input[name="alert"]:checked').value;
-  const snowFactor = `, a possible ${totalSnow} inches of snow`;
-  const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
-  const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
-  const tempText = `${temp7am < 0 ? tempFactor : ''}`;
-  const nonAlertFactors = snowText + tempText;
-  let calcFactors = 'Key Factor: There is no Winter Weather Alert for tomorrow';
-  if (alert !== 'none') {
-    calcFactors = `Key Factors: There is a Winter Weather ${alert}${nonAlertFactors}`;
+  try {
+    const todaySnow = parseInt(document.getElementById('snow-today').value);
+    const tomorrowSnow = parseInt(
+      document.getElementById('snow-tomorrow').value
+    );
+    const totalSnow = todaySnow + tomorrowSnow;
+    const temp7am = document.getElementById('temp').value;
+    const alert = document.querySelector('input[name="alert"]:checked').value;
+    const snowFactor = `, a possible ${totalSnow} inches of snow`;
+    const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
+    const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
+    const tempText = `${temp7am < 0 ? tempFactor : ''}`;
+    const nonAlertFactors = snowText + tempText;
+    let calcFactors =
+      'Key Factor: There is no Winter Weather Alert for tomorrow';
+    if (alert !== 'none') {
+      calcFactors = `Key Factors: There is a Winter Weather ${alert}${nonAlertFactors}`;
+    }
+    const modalTarget = document.getElementById('calc-factors');
+    console.log(calcFactors);
+    modalTarget.textContent = calcFactors;
+  } catch (error) {
+    console.error('Error during operation: ', error);
+    showErrorModal();
   }
-  const modalTarget = document.getElementById('calc-factors');
-  console.log(calcFactors);
-  modalTarget.textContent = calcFactors;
 }
 
 async function handleSnowSubmit(e) {
@@ -308,7 +314,7 @@ function updateModal(data) {
 
 function showErrorModal() {
   const modalBody = document.getElementById('modalBody');
-  modalBody.innerText = 'Error calculating Snow Day';
+  modalBody.innerText = 'Unexpected Error calculating Snow Day';
   modalBody.className = 'modal-body text-center font-weight-bold text-danger';
 }
 
