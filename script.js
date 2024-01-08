@@ -1,6 +1,5 @@
 import { getWeatherUrl } from './scripts/api.js';
-import { displayError } from './scripts/utility.js';
-import { errorGettingWeather } from './scripts/utility.js';
+import { displayError, errorGettingWeather } from './scripts/utility.js';
 
 // get 7am Forecast for Temperature and return feel like temp
 function handleTemperatureForecast(data) {

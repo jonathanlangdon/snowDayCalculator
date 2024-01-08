@@ -1,5 +1,4 @@
 import { displayError } from './utility';
-import { errorGettingWeather } from './scripts/utility.js';
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
