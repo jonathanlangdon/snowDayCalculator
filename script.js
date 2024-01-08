@@ -1,11 +1,6 @@
 import { getWeatherUrl } from './scripts/api.js';
 import { displayError } from './scripts/utility.js';
-
-function errorGettingWeather() {
-  const errorMessage =
-    'Error fetching weather data. Please check your internet connection or try again later.';
-  displayError(errorMessage);
-}
+import { errorGettingWeather } from './scripts/utility.js';
 
 // get 7am Forecast for Temperature and return feel like temp
 function handleTemperatureForecast(data) {
