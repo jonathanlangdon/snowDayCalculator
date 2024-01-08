@@ -2,6 +2,7 @@
   "name": "1snowdaycalculator",
   "version": "1.0.0",
   "description": "This application helps users predict snow days based on weather conditions.",
+  "type": "module",
   "main": "script.js",
   "scripts": {
     "test": "jest",
@@ -17,7 +18,7 @@
     "vitest": "^0.34.6"
   },
   "dependencies": {
-    "babel": "^6.23.0",
+    "babel": "^7.23.7",
     "jest": "^29.7.0",
     "jsdom": "^23.0.1"
   }

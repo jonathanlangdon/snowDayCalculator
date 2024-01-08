@@ -1,8 +1,8 @@
-export function displayError(message) {
+export default function displayError(message) {
   document.getElementById('forecast-error').innerText = message;
 }
 
-export function errorGettingWeather() {
+export default function errorGettingWeather() {
   const errorMessage =
     'Error fetching weather data. Please check try again later.';
   displayError(errorMessage);
