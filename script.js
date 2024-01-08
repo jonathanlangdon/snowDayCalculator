@@ -88,6 +88,7 @@ function handleSnow(data, day, container) {
 async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   for (let i = 0; i < maxRetries; i++) {
     if (i >= 10) {
+      console.log('Error fetching API data');
       errorGettingWeather();
     }
     try {
@@ -107,7 +108,7 @@ async function handleForecastHourly(url) {
     handleTemperatureForecast(data);
     handlePrecipitationForecast(data);
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.error('Error fetching hourly weather data:', error);
     errorGettingWeather();
   }
 }
@@ -163,7 +164,7 @@ async function getWeather(e) {
 
     await handleForecastHourly(forecastHourlyUrl);
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.error('Error fetching overall weather data:', error);
     errorGettingWeather();
   } finally {
     document.getElementById('loading-message').style.display = 'none';
