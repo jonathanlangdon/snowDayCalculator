@@ -1,8 +1,9 @@
 import { displayError } from './utility';
+import { errorGettingWeather } from './scripts/utility.js';
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-describe('Basic Tests', () => {
+describe('displayError function', () => {
   describe('correctly shows message', () => {
     it('should display a message', () => {
       // Create a mock DOM environment

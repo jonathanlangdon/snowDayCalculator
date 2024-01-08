@@ -4,6 +4,6 @@ export function displayError(message) {
 
 export function errorGettingWeather() {
   const errorMessage =
-    'Error fetching weather data. Please check your internet connection or try again later.';
+    'Error fetching weather data. Please check try again later.';
   displayError(errorMessage);
 }
