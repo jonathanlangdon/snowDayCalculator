@@ -290,15 +290,15 @@ function updateModal(data) {
   modalBody.innerText = returnValue;
 
   const textResult = document.getElementById('text-interpretation');
-  if (data.result < 16) {
+  if (data.result < 15) {
     textResult.innerText = 'Really not likely';
-  } else if (data.result < 36) {
+  } else if (data.result < 35) {
     textResult.innerText = 'Not likely';
-  } else if (data.result < 51) {
+  } else if (data.result < 50) {
     textResult.innerText = 'Slight chance';
-  } else if (data.result < 71) {
+  } else if (data.result < 70) {
     textResult.innerText = 'Decent chance';
-  } else if (data.result < 86) {
+  } else if (data.result < 85) {
     textResult.innerText = 'Good chance';
   } else if (data.result < 99) {
     textResult.innerText = 'High chance';
