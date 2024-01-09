@@ -135,10 +135,10 @@ async function handleAlert(url) {
         document.getElementById('alertstatus').setAttribute('value', 'warning');
         console.log('Warning value has been set');
       } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
-        document
-          .getElementById('alertstatus')
-          .setAttribute('value', 'advisory');
+        document.getElementById('alertstatus').value = 'advisory';
         console.log('Advisory value has been set');
+      } else {
+        document.getElementById('alertstatus').value = 'none';
       }
     }
     console.log(`Alert: ${alertText.headline}`);
@@ -249,6 +249,7 @@ async function handleSnowSubmit(e) {
   e.preventDefault();
   try {
     const formData = getFormData(e.target);
+    console.log(`Form data is ${formData}`);
     const data = await fetchData('/calc', formData);
     updateModal(data);
   } catch (error) {
