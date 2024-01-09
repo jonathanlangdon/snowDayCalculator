@@ -132,12 +132,14 @@ async function handleAlert(url) {
 
     if (expirationTime > tomorrow) {
       if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
-        document.getElementById('alert-status').value = 'warning';
+        document.getElementById('alertstatus').setAttribute('value', 'warning');
+        console.log('Warning value has been set');
       } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
-        document.getElementById('alert-status').value = 'advisory';
+        document
+          .getElementById('alertstatus')
+          .setAttribute('value', 'advisory');
+        console.log('Advisory value has been set');
       }
-    } else {
-      document.getElementById('alert-status').value = 'none';
     }
     console.log(`Alert: ${alertText.headline}`);
   } catch (error) {
@@ -223,7 +225,7 @@ function showCalcFactors() {
     );
     const totalSnow = todaySnow + tomorrowSnow;
     const temp7am = document.getElementById('temp').value;
-    const alert = document.getElementById('alert-status').value;
+    const alert = document.getElementById('alertstatus').value;
     const snowFactor = `, a possible ${totalSnow} inches of snow`;
     const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
     const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
