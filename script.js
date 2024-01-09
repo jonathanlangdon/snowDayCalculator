@@ -132,12 +132,12 @@ async function handleAlert(url) {
 
     if (expirationTime > tomorrow) {
       if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
-        document.getElementById('warning').checked = true;
+        document.getElementById('alert-status').value = 'warning';
       } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
-        document.getElementById('advisory').checked = true;
+        document.getElementById('alert-status').value = 'advisory';
       }
     } else {
-      document.getElementById('no-alert').checked = true;
+      document.getElementById('alert-status').value = 'none';
     }
     console.log(`Alert: ${alertText.headline}`);
   } catch (error) {
