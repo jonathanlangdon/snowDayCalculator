@@ -128,7 +128,7 @@ async function handleAlert(url) {
     const expirationTime = new Date(alertText.ends);
     const currentTime = new Date();
 
-    tomorrow = tomorrowDecisionTime(currentTime);
+    const tomorrow = tomorrowDecisionTime(currentTime);
 
     if (expirationTime > tomorrow) {
       if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
