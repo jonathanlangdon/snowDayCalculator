@@ -1,11 +1,5 @@
 import { getWeatherUrl } from './scripts/api.js';
-import { displayError } from './scripts/utility.js';
-
-function errorGettingWeather() {
-  const errorMessage =
-    'Error fetching weather data. Please check try again later.';
-  displayError(errorMessage);
-}
+import { displayError, errorGettingWeather } from './scripts/utility.js?v=1.02';
 
 // get 7am Forecast for Temperature and return feel like temp
 function handleTemperatureForecast(data) {
