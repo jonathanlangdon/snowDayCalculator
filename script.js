@@ -223,7 +223,7 @@ function showCalcFactors() {
     );
     const totalSnow = todaySnow + tomorrowSnow;
     const temp7am = document.getElementById('temp').value;
-    const alert = document.querySelector('input[name="alert"]:checked').value;
+    const alert = document.getElementById('alert-status').value;
     const snowFactor = `, a possible ${totalSnow} inches of snow`;
     const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
     const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
