@@ -161,8 +161,8 @@ async function getWeather(e) {
     const forecastUrl = initialData.properties.forecast;
 
     const forecastData = await fetchDataWithRetry(forecastUrl);
-    handleSnow(forecastData, 'today', '#snow-today');
-    handleSnow(forecastData, 'tomorrow', '#snow-tomorrow');
+    handleSnow(forecastData, 'today', '#snowtoday');
+    handleSnow(forecastData, 'tomorrow', '#snowtomorrow');
 
     await handleForecastHourly(forecastHourlyUrl);
   } catch (error) {
@@ -219,9 +219,9 @@ function calcWaitingMessage() {
 
 function showCalcFactors() {
   try {
-    const todaySnow = parseInt(document.getElementById('snow-today').value);
+    const todaySnow = parseInt(document.getElementById('snowtoday').value);
     const tomorrowSnow = parseInt(
-      document.getElementById('snow-tomorrow').value
+      document.getElementById('snowtomorrow').value
     );
     const totalSnow = todaySnow + tomorrowSnow;
     const temp7am = document.getElementById('temp').value;
