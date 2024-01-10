@@ -41,7 +41,7 @@ input[type='number'] {
   border-radius: 4px;
 }
 
-p,
+p:not(.font-italic),
 label,
 a {
   font-size: large;
