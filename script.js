@@ -131,7 +131,7 @@ async function handleAlert(url) {
     const tomorrow = tomorrowDecisionTime(currentTime);
 
     if (expirationTime > tomorrow) {
-      if (alertText.headline.match(/.*(winter).*(warning).*/i)) {
+      if (alertText.headline.match(/.*(winter).*(warning|watch).*/i)) {
         document.getElementById('alertstatus').setAttribute('value', 'warning');
         console.log('Warning value has been set');
       } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
