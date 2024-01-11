@@ -122,26 +122,38 @@ function tomorrowDecisionTime(currentTime) {
 
 async function handleAlert(url) {
   try {
+    const currentTime = new Date();
+    const tomorrow = tomorrowDecisionTime(currentTime);
     const data = await fetchDataWithRetry(url);
     if (!data.features[0]) return;
-    const alertText = data.features[0].properties;
-    const expirationTime = new Date(alertText.ends);
-    const currentTime = new Date();
+    const alerts = [];
+    data.features.forEach(item => {
+      // console.log(item.properties.headline);
+      // console.log(item.properties.ends);
+      const itemData = {
+        headline: item.properties.headline,
+        endTime: item.properties.ends
+          ? new Date(item.properties.ends)
+          : currentTime
+      };
+      alerts.push(itemData);
+    });
+    console.log(alerts);
 
-    const tomorrow = tomorrowDecisionTime(currentTime);
-
-    if (expirationTime > tomorrow) {
-      if (alertText.headline.match(/.*(winter).*(warning|watch).*/i)) {
-        document.getElementById('alertstatus').setAttribute('value', 'warning');
-        console.log('Warning value has been set');
-      } else if (alertText.headline.match(/.*(winter).*(advisory).*/i)) {
-        document.getElementById('alertstatus').value = 'advisory';
-        console.log('Advisory value has been set');
-      } else {
-        document.getElementById('alertstatus').value = 'none';
+    alerts.forEach(alert => {
+      if (alert.endTime > tomorrow) {
+        if (alert.headline.match(/.*(winter).*(warning|watch).*/i)) {
+          document
+            .getElementById('alertstatus')
+            .setAttribute('value', 'warning');
+          console.log('Warning value has been set');
+          return;
+        } else if (alert.headline.match(/.*(winter).*(advisory).*/i)) {
+          document.getElementById('alertstatus').value = 'advisory';
+          console.log('Advisory value has been set');
+        }
       }
-    }
-    console.log(`Alert: ${alertText.headline}`);
+    });
   } catch (error) {
     console.error('Error fetching alert data:', error);
     errorGettingWeather();
