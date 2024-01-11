@@ -298,7 +298,7 @@ function updateModal(data) {
   } else if (data.result < 35) {
     textResult.innerText = 'Slight Chance';
   } else if (data.result < 50) {
-    textResult.innerText = 'Small chance';
+    textResult.innerText = 'Some chance';
   } else if (data.result < 70) {
     textResult.innerText = 'Decent chance';
   } else if (data.result < 85) {
