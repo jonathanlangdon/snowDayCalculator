@@ -294,11 +294,11 @@ function updateModal(data) {
 
   const textResult = document.getElementById('text-interpretation');
   if (data.result < 15) {
-    textResult.innerText = 'Really not likely';
-  } else if (data.result < 35) {
     textResult.innerText = 'Not likely';
+  } else if (data.result < 35) {
+    textResult.innerText = 'Slight Chance';
   } else if (data.result < 50) {
-    textResult.innerText = 'Slight chance';
+    textResult.innerText = 'Small chance';
   } else if (data.result < 70) {
     textResult.innerText = 'Decent chance';
   } else if (data.result < 85) {
@@ -306,7 +306,7 @@ function updateModal(data) {
   } else if (data.result < 99) {
     textResult.innerText = 'High chance';
   } else if (data.result >= 99) {
-    textResult.innerText = 'Pack your snow pants';
+    textResult.innerText = 'Almost certain';
   }
 }
 
