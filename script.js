@@ -243,7 +243,7 @@ function showCalcFactors() {
     const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
     const tempText = `${temp7am < 0 ? tempFactor : ''}`;
     const nonAlertFactors = snowText + tempText;
-    let calcFactors = `Key Factors: Currently there is no Winter Weather Alert for tomorrow ${nonAlertFactors} Check again later.`;
+    let calcFactors = `Key Factors: Currently there is no Winter Weather Alert for tomorrow${nonAlertFactors}. Check again later.`;
     if (alert !== 'none') {
       calcFactors = `Key Factors: There is a Winter Weather ${alert}${nonAlertFactors}`;
     }
