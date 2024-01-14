@@ -1,8 +1,13 @@
 import { getWeatherUrl } from './scripts/api.js';
 import { displayError, errorGettingWeather } from './scripts/utility.js?v=1.02';
 
-// get 7am Forecast for Temperature and return feel like temp
-function handleTemperatureForecast(data) {
+let SNOWTODAY;
+let SNOWTOMORROW;
+let PRECIP;
+let TEMP;
+let ALERT;
+
+function getFeelLikeTemp(data) {
   const tomorrow7amForecast = data.properties.periods.find(period =>
     period.startTime.includes('T07:00')
   );
@@ -17,10 +22,9 @@ function handleTemperatureForecast(data) {
       35.75 * wind7am ** 0.16 +
       0.4275 * temp7am * wind7am ** 0.16
     ).toFixed(0);
-    document.getElementById('temp').value = feelLikeTemp;
     console.log(`Tomorrow Feel-like: ${feelLikeTemp}`);
+    return feelLikeTemp;
   } else {
-    document.getElementById('temp').value = '';
     displayError('|| No forecast available for 7am tomorrow ||');
   }
 }
@@ -31,10 +35,8 @@ function handlePrecipitationForecast(data) {
     period.startTime.includes('T05:00')
   );
   if (tomorrow5amForecast) {
-    document.getElementById('precip').value =
-      tomorrow5amForecast.probabilityOfPrecipitation.value;
+    return tomorrow5amForecast.probabilityOfPrecipitation.value;
   } else {
-    document.getElementById('precip').value = '';
     displayError('|| No forecast available for 5am tomorrow ||');
   }
 }
@@ -105,8 +107,8 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
 async function handleForecastHourly(url) {
   try {
     const data = await fetchDataWithRetry(url);
-    handleTemperatureForecast(data);
-    handlePrecipitationForecast(data);
+    TEMP = getFeelLikeTemp(data);
+    PRECIP = handlePrecipitationForecast(data);
   } catch (error) {
     console.error('Error fetching hourly weather data:', error);
     errorGettingWeather();
@@ -128,8 +130,6 @@ async function handleAlert(url) {
     if (!data.features[0]) return;
     const alerts = [];
     data.features.forEach(item => {
-      // console.log(item.properties.headline);
-      // console.log(item.properties.ends);
       const itemData = {
         headline: item.properties.headline,
         endTime: item.properties.ends
@@ -140,27 +140,27 @@ async function handleAlert(url) {
     });
     console.log(alerts);
 
+    let alertValue = 'none';
     alerts.forEach(alert => {
       if (alert.endTime > tomorrow) {
         if (alert.headline.match(/.*(winter).*(warning|watch).*/i)) {
-          document
-            .getElementById('alertstatus')
-            .setAttribute('value', 'warning');
           console.log('Warning value has been set');
-          return;
+          alertValue = 'warning';
+          return alertValue;
         } else if (alert.headline.match(/.*(winter).*(advisory).*/i)) {
-          document.getElementById('alertstatus').value = 'advisory';
           console.log('Advisory value has been set');
+          alertValue = 'advisory';
         }
       }
     });
+    return alertValue;
   } catch (error) {
     console.error('Error fetching alert data:', error);
     errorGettingWeather();
   }
 }
 
-async function getWeather(e) {
+async function getAnalyzeForecast(e) {
   e.preventDefault();
   document.getElementById('forecast-error').innerText = '';
   calcWaitingMessage();
@@ -183,8 +183,15 @@ async function getWeather(e) {
   } finally {
     document.getElementById('loading-message').style.display = 'none';
   }
-  await handleAlert(alertUrl);
-  handleSnowSubmit(e);
+  ALERT = await handleAlert(alertUrl);
+  const apiData = {
+    snowToday: SNOWTODAY,
+    snowTomorrow: SNOWTOMORROW,
+    precip: PRECIP,
+    temp: TEMP,
+    alert: ALERT
+  };
+  analyzeSnowData(apiData);
 }
 
 function returnRandomWaitMessage() {
@@ -256,7 +263,7 @@ function showCalcFactors() {
   }
 }
 
-async function handleSnowSubmit(e) {
+async function analyzeSnowData(e) {
   e.preventDefault();
   try {
     const formData = getFormData(e.target);
@@ -399,7 +406,7 @@ function init() {
   locationGetBtn.addEventListener('submit', getUserLocation);
 
   const forecastGetBtn = document.getElementById('forecast-calculate-form');
-  forecastGetBtn.addEventListener('submit', getWeather);
+  forecastGetBtn.addEventListener('submit', getAnalyzeForecast);
 }
 
 if (typeof module === 'undefined' || !module.exports) {
