@@ -187,10 +187,16 @@ async function getAnalyzeForecast(e) {
     document.getElementById('loading-message').style.display = 'none';
   }
   // ALERT = await handleAlert(alertUrl);
-  const apiData = `snowToday=${SNOWTODAY}&snowTomorrow=${SNOWTOMORROW}&precip=${PRECIP}&temp=${TEMP}&alert=${ALERT}`;
+  const apiData = {
+    snowtoday: SNOWTODAY,
+    snowtomorrow: SNOWTOMORROW,
+    precip: PRECIP,
+    temp: TEMP,
+    alert: ALERT
+  };
 
   console.log(`Data sent to API: ${apiData}`);
-  analyzeSnowData(apiData);
+  fetchSnowCalc(apiData);
 }
 
 function returnRandomWaitMessage() {
@@ -256,9 +262,19 @@ function showCalcFactors() {
   }
 }
 
-async function analyzeSnowData(apiData) {
+async function fetchSnowCalc(apiData) {
   try {
-    const data = await fetchData('/calc', apiData);
+    const response = await fetch('/calc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: apiData
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
     updateModal(data);
   } catch (error) {
     console.error('Error during operation: ', error);
@@ -270,22 +286,6 @@ async function analyzeSnowData(apiData) {
     () => (document.getElementById('below-calculator-div').innerText = ''),
     2000
   );
-}
-
-async function fetchData(url, formData) {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    body: formData
-  });
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-
-  return await response.json();
 }
 
 function updateModal(data) {
