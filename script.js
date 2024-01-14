@@ -5,7 +5,7 @@ let SNOWTODAY = 0;
 let SNOWTOMORROW = 0;
 let PRECIP = 0;
 let TEMP = 32;
-let ALERT = 'warning';
+let ALERT = 'none';
 
 function getFeelLikeTemp(data) {
   const tomorrow7amForecast = data.properties.periods.find(period =>
