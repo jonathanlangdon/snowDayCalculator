@@ -184,7 +184,7 @@ async function getWeather(e) {
     document.getElementById('loading-message').style.display = 'none';
   }
   await handleAlert(alertUrl);
-  document.getElementById('calculate-snow').click();
+  handleSnowSubmit(e);
 }
 
 function returnRandomWaitMessage() {
@@ -238,7 +238,7 @@ function showCalcFactors() {
     const totalSnow = todaySnow + tomorrowSnow;
     const temp7am = document.getElementById('temp').value;
     const alert = document.getElementById('alertstatus').value;
-    const snowFactor = `, a possible ${totalSnow} inches of snow`;
+    const snowFactor = `, a possible ${totalSnow} inches of snow today and tomorrow`;
     const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
     const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
     const tempText = `${temp7am < 0 ? tempFactor : ''}`;
@@ -398,11 +398,8 @@ function init() {
   const locationGetBtn = document.getElementById('location-getter');
   locationGetBtn.addEventListener('submit', getUserLocation);
 
-  const forecastGetBtn = document.getElementById('get-forecast-form');
+  const forecastGetBtn = document.getElementById('forecast-calculate-form');
   forecastGetBtn.addEventListener('submit', getWeather);
-
-  const calculateSnowBtn = document.getElementById('calculator-form');
-  calculateSnowBtn.addEventListener('submit', handleSnowSubmit);
 }
 
 if (typeof module === 'undefined' || !module.exports) {
