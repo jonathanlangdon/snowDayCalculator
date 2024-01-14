@@ -194,6 +194,7 @@ async function getAnalyzeForecast(e) {
     temp: TEMP,
     alert: ALERT
   };
+  console.log(`Data sent to API: ${apiData}`);
   analyzeSnowData(apiData);
 }
 
@@ -241,21 +242,15 @@ function calcWaitingMessage() {
 
 function showCalcFactors() {
   try {
-    const todaySnow = parseInt(document.getElementById('snowtoday').value);
-    const tomorrowSnow = parseInt(
-      document.getElementById('snowtomorrow').value
-    );
-    const totalSnow = todaySnow + tomorrowSnow;
-    const temp7am = document.getElementById('temp').value;
-    const alert = document.getElementById('alertstatus').value;
+    const totalSnow = SNOWTODAY + SNOWTOMORROW;
     const snowFactor = `, a possible ${totalSnow} inches of snow today and tomorrow`;
-    const tempFactor = `, a feel-like temp of ${temp7am} degrees`;
+    const tempFactor = `, a feel-like temp of ${TEMP} degrees`;
     const snowText = `${totalSnow > 0 ? snowFactor : ''}`;
-    const tempText = `${temp7am < 0 ? tempFactor : ''}`;
+    const tempText = `${TEMP < 0 ? tempFactor : ''}`;
     const nonAlertFactors = snowText + tempText;
     let calcFactors = `Key Factors: Currently there is no Winter Weather Alert for tomorrow${nonAlertFactors}. Check again later.`;
-    if (alert !== 'none') {
-      calcFactors = `Key Factors: There is a Winter Weather ${alert}${nonAlertFactors}`;
+    if (ALERT !== 'none') {
+      calcFactors = `Key Factors: There is a Winter Weather ${ALERT}${nonAlertFactors}`;
     }
     const modalTarget = document.getElementById('calc-factors');
     console.log(calcFactors);
@@ -268,7 +263,6 @@ function showCalcFactors() {
 
 async function analyzeSnowData(apiData) {
   try {
-    console.log(`Data sent to API is ${apiData}`);
     const data = await fetchData('/calc', apiData);
     updateModal(data);
   } catch (error) {
