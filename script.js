@@ -187,14 +187,14 @@ async function getAnalyzeForecast(e) {
     document.getElementById('loading-message').style.display = 'none';
   }
   // ALERT = await handleAlert(alertUrl);
-  const apiData = {
+  const apiData = JSON.stringify({
     snowToday: SNOWTODAY,
     snowTomorrow: SNOWTOMORROW,
     precip: PRECIP,
     temp: TEMP,
     alert: ALERT
-  };
-  console.log(`Data sent to API: ${JSON.stringify(apiData)}`);
+  });
+  console.log(`Data sent to API: ${apiData}`);
   analyzeSnowData(apiData);
 }
 
@@ -275,10 +275,6 @@ async function analyzeSnowData(apiData) {
     () => (document.getElementById('below-calculator-div').innerText = ''),
     2000
   );
-}
-
-function getFormData(form) {
-  return new URLSearchParams(new FormData(form)).toString();
 }
 
 async function fetchData(url, formData) {
@@ -385,8 +381,14 @@ const locationOptions = {
   timeout: 5000
 };
 
+function getFormData(form) {
+  return new URLSearchParams(new FormData(form)).toString();
+}
+
 function getUserLocation(e) {
   e.preventDefault();
+  const formData = getFormData(e.target);
+  console.log(`location form data: ${formData}`);
   navigator.geolocation.getCurrentPosition(
     successLocation,
     errorLocation,
