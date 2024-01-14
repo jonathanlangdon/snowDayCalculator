@@ -1,11 +1,11 @@
 import { getWeatherUrl } from './scripts/api.js';
 import { displayError, errorGettingWeather } from './scripts/utility.js?v=1.02';
 
-let SNOWTODAY;
-let SNOWTOMORROW;
-let PRECIP;
-let TEMP;
-let ALERT;
+let SNOWTODAY = 0;
+let SNOWTOMORROW = 0;
+let PRECIP = 0;
+let TEMP = 32;
+let ALERT = 'none';
 
 function getFeelLikeTemp(data) {
   const tomorrow7amForecast = data.properties.periods.find(period =>
@@ -42,7 +42,7 @@ function handlePrecipitationForecast(data) {
 }
 
 // get number of inches of snow
-function handleSnow(data, day, container) {
+function handleSnow(data, day) {
   const dayType = day === 'today' ? 0 : 1;
   let forecastOfDay = data.properties.periods[dayType];
   let tonightHasForecast = false;
@@ -71,12 +71,15 @@ function handleSnow(data, day, container) {
           console.log(`today's inches (including tonight) is now ${match}`);
         }
       }
-      document.querySelector(container).value = match;
+      if (day === 'today') {
+        SNOWTODAY = match;
+      } else if (day === 'tomorrow') {
+        SNOWTOMORROW = match;
+      }
       console.log(
         `Forecast has minimum of snow of ${match} for ${forecastOfDay.name}`
       );
     } else {
-      document.querySelector(container).value = 0;
       console.log(
         `No inches of snow found in detailedForecast for ${forecastOfDay.name}`
       );
@@ -173,8 +176,8 @@ async function getAnalyzeForecast(e) {
     const forecastUrl = initialData.properties.forecast;
 
     const forecastData = await fetchDataWithRetry(forecastUrl);
-    handleSnow(forecastData, 'today', '#snowtoday');
-    handleSnow(forecastData, 'tomorrow', '#snowtomorrow');
+    handleSnow(forecastData, 'today');
+    handleSnow(forecastData, 'tomorrow');
 
     await handleForecastHourly(forecastHourlyUrl);
   } catch (error) {
@@ -263,12 +266,10 @@ function showCalcFactors() {
   }
 }
 
-async function analyzeSnowData(e) {
-  e.preventDefault();
+async function analyzeSnowData(apiData) {
   try {
-    const formData = getFormData(e.target);
-    console.log(`Form data is ${formData}`);
-    const data = await fetchData('/calc', formData);
+    console.log(`Data sent to API is ${apiData}`);
+    const data = await fetchData('/calc', apiData);
     updateModal(data);
   } catch (error) {
     console.error('Error during operation: ', error);
