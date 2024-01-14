@@ -186,7 +186,7 @@ async function getAnalyzeForecast(e) {
   } finally {
     document.getElementById('loading-message').style.display = 'none';
   }
-  // ALERT = await handleAlert(alertUrl);
+  ALERT = await handleAlert(alertUrl);
   const apiData = JSON.stringify({
     snowtoday: SNOWTODAY,
     snowtomorrow: SNOWTOMORROW,
