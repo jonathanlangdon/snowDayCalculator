@@ -187,13 +187,8 @@ async function getAnalyzeForecast(e) {
     document.getElementById('loading-message').style.display = 'none';
   }
   // ALERT = await handleAlert(alertUrl);
-  const apiData = JSON.stringify({
-    snowToday: SNOWTODAY,
-    snowTomorrow: SNOWTOMORROW,
-    precip: PRECIP,
-    temp: TEMP,
-    alert: ALERT
-  });
+  const apiData = `snowToday=${SNOWTODAY},snowTomorrow=${SNOWTOMORROW},precip=${PRECIP},temp=${TEMP},alert=${ALERT}`;
+
   console.log(`Data sent to API: ${apiData}`);
   analyzeSnowData(apiData);
 }
