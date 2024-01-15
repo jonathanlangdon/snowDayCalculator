@@ -42,47 +42,35 @@ function handlePrecipitationForecast(data) {
 }
 
 // get number of inches of snow
-function handleSnow(data, day) {
-  const dayType = day === 'today' ? 0 : 1;
-  let forecastOfDay = data.properties.periods[dayType];
-  let tonightHasForecast = false;
-
+function handleSnow(data) {
+  const forecastToday = data.properties.periods[0].detailedForecast;
+  let forecastTonight = data.properties.periods[1].detailedForecast;
+  let forecastTomorrow = data.properties.periods[1].detailedForecast;
+  let NightHasForecast = false;
   if (data.properties.periods[1].name === 'Tonight') {
-    tonightHasForecast = true;
-    if (day === 'tomorrow') {
-      forecastOfDay = data.properties.periods[2];
-    }
+    NightHasForecast = true;
+    forecastTomorrow = data.properties.periods[2].detailedForecast;
   }
 
-  if (forecastOfDay.detailedForecast) {
-    const minInchesRegex = /(\d+)\s*to\s*\d+\s*(?:inch|inches)\b/;
-    let matchArray = forecastOfDay.detailedForecast.match(minInchesRegex);
+  if (forecastToday) {
+    const minInchRegex = /(\d+)\s*to\s*\d+\s*(?:inch|inches)\b/;
+    const regexToday = forecastToday.match(minInchRegex);
+    const regexTonight = forecastTonight.match(minInchRegex);
+    const regexTomorrow = forecastTomorrow.match(minInchRegex);
+    let inchesToday = 0;
+    let inchesTonight = 0;
+    let inchesTomorrow = 0;
+    if (regexToday) inchesToday = parseInt(regexToday[1]);
+    if (NightHasForecast) inchesTonight = parseInt(regexTonight[1]);
+    if (regexTomorrow) inchesTomorrow = parseInt(regexTomorrow[1]);
 
-    if (matchArray && matchArray.length > 1) {
-      let match = parseInt(matchArray[1]);
-
-      if (day === 'today' && tonightHasForecast) {
-        let tonightMatchArray =
-          data.properties.periods[1].detailedForecast.match(minInchesRegex);
-        if (tonightMatchArray && tonightMatchArray.length > 1) {
-          const tonightInches = parseInt(tonightMatchArray[1]);
-          console.log(`tonight's inches are ${tonightInches}`);
-          match += tonightInches;
-          console.log(`today's inches (including tonight) is now ${match}`);
-        }
-      }
-      if (day === 'today') {
-        SNOWTODAY = match;
-      } else if (day === 'tomorrow') {
-        SNOWTOMORROW = match;
-      }
-      console.log(
-        `Forecast has minimum of snow of ${match} for ${forecastOfDay.name}`
-      );
+    if (regexToday || regexTomorrow) {
+      SNOWTODAY = inchesToday + inchesTonight;
+      console.log(`Today's min inches of snow are ${SNOWTODAY}`);
+      SNOWTOMORROW = parseInt(regexTomorrow[1]);
+      console.log(`Tomorrow's min inches of snow are ${SNOWTOMORROW}`);
     } else {
-      console.log(
-        `No inches of snow found in detailedForecast for ${forecastOfDay.name}`
-      );
+      console.log(`No inches snow in forecast`);
     }
   } else {
     console.log('forecastOfDay.detailedForecast is null or undefined.');
@@ -176,8 +164,7 @@ async function getAnalyzeForecast(e) {
     const forecastUrl = initialData.properties.forecast;
 
     const forecastData = await fetchDataWithRetry(forecastUrl);
-    handleSnow(forecastData, 'today');
-    handleSnow(forecastData, 'tomorrow');
+    handleSnow(forecastData);
 
     await handleForecastHourly(forecastHourlyUrl);
   } catch (error) {
