@@ -22,7 +22,6 @@ function getFeelLikeTemp(data) {
       35.75 * wind7am ** 0.16 +
       0.4275 * temp7am * wind7am ** 0.16
     ).toFixed(0);
-    console.log(`Tomorrow Feel-like: ${feelLikeTemp}`);
     return feelLikeTemp;
   } else {
     displayError('|| No forecast available for 7am tomorrow ||');
@@ -66,11 +65,7 @@ function handleSnow(data) {
 
     if (regexToday || regexTomorrow) {
       SNOWTODAY = inchesToday + inchesTonight;
-      console.log(`Today's min inches of snow are ${SNOWTODAY}`);
       SNOWTOMORROW = parseInt(regexTomorrow[1]);
-      console.log(`Tomorrow's min inches of snow are ${SNOWTOMORROW}`);
-    } else {
-      console.log(`No inches snow in forecast`);
     }
   } else {
     console.log('forecastOfDay.detailedForecast is null or undefined.');
@@ -129,17 +124,15 @@ async function handleAlert(url) {
       };
       alerts.push(itemData);
     });
-    console.log(alerts);
 
     let alertValue = 'none';
     alerts.forEach(alert => {
+      console.log(alert.headline);
       if (alert.endTime > tomorrow) {
         if (alert.headline.match(/.*(winter).*(warning|watch).*/i)) {
-          console.log('Warning value has been set');
           alertValue = 'warning';
           return alertValue;
         } else if (alert.headline.match(/.*(winter).*(advisory).*/i)) {
-          console.log('Advisory value has been set');
           alertValue = 'advisory';
         }
       }
@@ -241,7 +234,6 @@ function showCalcFactors() {
       calcFactors = `Key Factors: There is a Winter Weather ${ALERT}${nonAlertFactors}`;
     }
     const modalTarget = document.getElementById('calc-factors');
-    console.log(calcFactors);
     modalTarget.textContent = calcFactors;
   } catch (error) {
     console.error('Error during operation: ', error);
