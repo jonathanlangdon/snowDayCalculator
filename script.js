@@ -58,15 +58,10 @@ function handleSnow(data) {
     const regexTomorrow = forecastTomorrow.match(minInchRegex);
     let inchesToday = 0;
     let inchesTonight = 0;
-    let inchesTomorrow = 0;
     if (regexToday) inchesToday = parseInt(regexToday[1]);
     if (NightHasForecast) inchesTonight = parseInt(regexTonight[1]);
-    if (regexTomorrow) inchesTomorrow = parseInt(regexTomorrow[1]);
-
-    if (regexToday || regexTomorrow) {
-      SNOWTODAY = inchesToday + inchesTonight;
-      SNOWTOMORROW = parseInt(regexTomorrow[1]);
-    }
+    SNOWTODAY = inchesToday + inchesTonight;
+    if (regexTomorrow) SNOWTOMORROW = parseInt(regexTomorrow[1]);
   } else {
     console.log('forecastOfDay.detailedForecast is null or undefined.');
     errorGettingWeather();
