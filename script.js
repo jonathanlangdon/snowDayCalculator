@@ -153,15 +153,15 @@ async function getAnalyzeForecast(e) {
 
     const forecastData = await fetchDataWithRetry(forecastUrl);
     handleSnow(forecastData);
-
     await handleForecastHourly(forecastHourlyUrl);
+    const newAlert = await handleAlert(alertUrl);
+    ALERT = newAlert ? newAlert : 'none';
   } catch (error) {
     console.error('Error fetching overall weather data:', error);
     errorGettingWeather();
   } finally {
     document.getElementById('loading-message').style.display = 'none';
   }
-  ALERT = await handleAlert(alertUrl);
   const apiData = JSON.stringify({
     snowtoday: SNOWTODAY,
     snowtomorrow: SNOWTOMORROW,
