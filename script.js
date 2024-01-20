@@ -59,7 +59,7 @@ function handleSnow(data) {
     let inchesToday = 0;
     let inchesTonight = 0;
     if (regexToday) inchesToday = parseInt(regexToday[1]);
-    if (NightHasForecast) inchesTonight = parseInt(regexTonight[1]);
+    if (regexTonight) inchesTonight = parseInt(regexTonight[1]);
     SNOWTODAY = inchesToday + inchesTonight;
     if (regexTomorrow) SNOWTOMORROW = parseInt(regexTomorrow[1]);
   } else {
