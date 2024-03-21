@@ -43,7 +43,7 @@ function handlePrecipitationForecast(data) {
 // get number of inches of snow
 function handleSnow(data) {
   const forecastToday = data.properties.periods[0].detailedForecast;
-  let forecastTonight = data.properties.periods[1].detailedForecast;
+  const forecastTonight = data.properties.periods[1].detailedForecast;
   let forecastTomorrow = data.properties.periods[1].detailedForecast;
   let NightHasForecast = false;
   if (data.properties.periods[1].name === 'Tonight') {
@@ -51,10 +51,16 @@ function handleSnow(data) {
     forecastTomorrow = data.properties.periods[2].detailedForecast;
   }
 
+  let regexTonight;
+  const minInchRegex = /(\d+)\s*to\s*\d+\s*(?:inch|inches)\b/;
+  if (NightHasForecast) {
+    regexTonight = forecastTonight.match(minInchRegex);
+  } else {
+    regexTonight = 0;
+  }
+
   if (forecastToday) {
-    const minInchRegex = /(\d+)\s*to\s*\d+\s*(?:inch|inches)\b/;
     const regexToday = forecastToday.match(minInchRegex);
-    const regexTonight = forecastTonight.match(minInchRegex);
     const regexTomorrow = forecastTomorrow.match(minInchRegex);
     let inchesToday = 0;
     let inchesTonight = 0;
