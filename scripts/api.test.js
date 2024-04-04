@@ -1,8 +1,8 @@
-import { getWeatherUrl } from './api';
+import { getWeatherUrl, getFeelLikeTemp } from './api';
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-describe('Basic Tests', () => {
+describe('getWeatherUrl Tests', () => {
   describe('Correct URL setup', () => {
     it('should correctly put latitude & longitude in URL', () => {
       // Create a mock DOM environment
@@ -29,6 +29,21 @@ describe('Basic Tests', () => {
 
       // Clean up
       delete global.document;
+    });
+  });
+});
+
+describe('getFeelLikeTemp tests', () => {
+  describe('json file test 1', () => {
+    it('get correct temperature from json file', () => {
+      // Set up global variables
+      const testData = require('./testAPIData/2024-04-04-hourly.json');
+
+      // Act
+      const actual = getFeelLikeTemp(testData);
+
+      // Assert
+      expect(actual).toEqual('27');
     });
   });
 });
