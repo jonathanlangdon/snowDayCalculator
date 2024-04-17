@@ -3,8 +3,6 @@
 // Hourly Forecast URL: https://api.weather.gov/gridpoints/GRR/30,48/forecast/hourly
 // Alert URL test: https://api.weather.gov/alerts/active?point=43,-86
 
-import { displayError } from './utility';
-
 export function getWeatherUrl() {
   const latitude = document.getElementById('latitude').value;
   const longitude = document.getElementById('longitude').value;
