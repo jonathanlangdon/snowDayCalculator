@@ -1,5 +1,5 @@
 import { getWeatherUrl, getFeelLikeTemp } from './scripts/api.js';
-import { displayError, errorGettingWeather } from './scripts/utility.js?v=1.03';
+import { displayError, errorGettingWeather } from './scripts/utility.js';
 
 let SNOWTODAY = 0;
 let SNOWTOMORROW = 0;
