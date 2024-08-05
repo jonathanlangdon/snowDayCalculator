@@ -20,7 +20,7 @@ function handlePrecipitationForecast(data) {
 }
 
 // get number of inches of snow
-function handleSnow(data) {
+function getInchesSnow(data) {
   const forecastToday = data.properties.periods[0].detailedForecast;
   const forecastTonight = data.properties.periods[1].detailedForecast;
   let forecastTomorrow = data.properties.periods[1].detailedForecast;
@@ -70,7 +70,7 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
   }
 }
 
-async function handleForecastHourly(url) {
+async function getHourlyForecast(url) {
   try {
     const data = await fetchDataWithRetry(url);
     TEMP = getFeelLikeTemp(data);
@@ -137,8 +137,8 @@ async function getAnalyzeForecast(e) {
     const forecastUrl = initialData.properties.forecast;
 
     const forecastData = await fetchDataWithRetry(forecastUrl);
-    handleSnow(forecastData);
-    await handleForecastHourly(forecastHourlyUrl);
+    getInchesSnow(forecastData);
+    await getHourlyForecast(forecastHourlyUrl);
     const newAlert = await handleAlert(alertUrl);
     ALERT = newAlert ? newAlert : 'none';
   } catch (error) {
