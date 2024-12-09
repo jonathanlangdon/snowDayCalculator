@@ -64,7 +64,7 @@ async function fetchDataWithRetry(url, maxRetries = 15, delay = 2000) {
       if (!response.ok) throw new Error('Network response was not ok');
       return await response.json();
     } catch (error) {
-      if (i < maxRetries - 1) await new Promise(res => setTimeout(res, delay));
+      if (i < maxRetries) await new Promise(res => setTimeout(res, delay));
       else throw error;
     }
   }
@@ -88,16 +88,27 @@ function tomorrowDecisionTime(currentTime) {
   return tomorrow;
 }
 
+function tomorrowSchoolEnd(currentTime) {
+  const schoolEnd = new Date(currentTime);
+  schoolEnd.setDate(currentTime.getDate() + 1);
+  schoolEnd.setHours(16, 0, 0, 0);
+  return schoolEnd;
+}
+
 async function handleAlert(url) {
   try {
     const currentTime = new Date();
     const tomorrow = tomorrowDecisionTime(currentTime);
+    const schoolEnd = tomorrowSchoolEnd(currentTime);
     const data = await fetchDataWithRetry(url);
     if (!data.features[0]) return;
     const alerts = [];
     data.features.forEach(item => {
       const itemData = {
         headline: item.properties.headline,
+        onset: item.properties.onset
+          ? new Date(item.properties.onset)
+          : currentTime,
         endTime: item.properties.ends
           ? new Date(item.properties.ends)
           : currentTime
@@ -108,7 +119,7 @@ async function handleAlert(url) {
     let alertValue = 'none';
     alerts.forEach(alert => {
       console.log(alert.headline);
-      if (alert.endTime > tomorrow) {
+      if (alert.endTime > tomorrow && alert.onset < schoolEnd) {
         if (alert.headline.match(/.*(winter).*(warning|watch).*/i)) {
           alertValue = 'warning';
           return alertValue;
