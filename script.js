@@ -222,7 +222,8 @@ function showCalcFactors() {
     const nonAlertFactors = snowText + tempText;
     let calcFactors = `Key Factors: Currently there is no Winter Weather Alert for tomorrow${nonAlertFactors}. Check again later.`;
     if (ALERT !== 'none') {
-      calcFactors = `Key Factors: There is a Winter Weather ${ALERT}${nonAlertFactors}`;
+      const alertTitle = ALERT.charAt(0).toUpperCase() + ALERT.slice(1);
+      calcFactors = `Key Factors: There is a Winter Weather ${alertTitle}${nonAlertFactors}`;
     }
     const modalTarget = document.getElementById('calc-factors');
     modalTarget.textContent = calcFactors;
