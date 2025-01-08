@@ -7,6 +7,21 @@
       name="description"
       content="Calculate the likelihood of a snow day in West Michigan with our Snow Day Calculator. Get real-time updates based on your location."
     />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+  default-src 'none';
+  script-src 'self' https://cdn.jsdelivr.net https://kit.fontawesome.com;
+  style-src 'self' https://cdn.jsdelivr.net;
+  img-src 'self' data:;
+  connect-src 'self' https://api.weather.gov;
+  font-src https://kit.fontawesome.com;
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+"
+    />
+
     <link rel="canonical" href="https://snowdaymichigan.com" />
     <link rel="icon" type="image/png" href="graphics/favicon.png?v=1.01" />
     <link rel="icon" type="image/x-icon" href="graphics/favicon.ico?v=1.01" />
@@ -17,7 +32,7 @@
 
     <link rel="stylesheet" type="text/css" href="style.css?v=1.22" />
 
-    <script type="module" defer src="script.js?v=1.96"></script>
+    <script type="module" defer src="script.js?v=1.97"></script>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
