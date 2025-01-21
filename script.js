@@ -170,6 +170,32 @@ async function getAnalyzeForecast(e) {
   fetchSnowCalc(apiData);
 }
 
+async function fetchSnowCalc(apiData) {
+  try {
+    const response = await fetch('/calc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: apiData
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    updateModal(data);
+  } catch (error) {
+    console.error('Error during operation: ', error);
+    showErrorModal();
+  }
+  showCalcFactors();
+  showModal('resultModal');
+  setTimeout(
+    () => (document.getElementById('below-calculator-div').innerText = ''),
+    2000
+  );
+}
+
 function returnRandomWaitMessage() {
   const snowDayMessages = [
     'Measuring snow flakes...',
@@ -231,32 +257,6 @@ function showCalcFactors() {
     console.error('Error during operation: ', error);
     showErrorModal();
   }
-}
-
-async function fetchSnowCalc(apiData) {
-  try {
-    const response = await fetch('/calc', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: apiData
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    updateModal(data);
-  } catch (error) {
-    console.error('Error during operation: ', error);
-    showErrorModal();
-  }
-  showCalcFactors();
-  showModal('resultModal');
-  setTimeout(
-    () => (document.getElementById('below-calculator-div').innerText = ''),
-    2000
-  );
 }
 
 function updateModal(data) {
