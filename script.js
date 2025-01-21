@@ -125,6 +125,8 @@ async function handleAlert(url) {
           return alertValue;
         } else if (alert.headline.match(/.*(winter).*(advisory).*/i)) {
           alertValue = 'advisory';
+        } else if (alert.headline.match(/.*(cold).*(advisory).*/i)) {
+          alertValue = 'advisory';
         }
       }
     });
