@@ -119,7 +119,11 @@ async function handleAlert(url) {
     let alertValue = 'none';
     alerts.forEach(alert => {
       console.log(alert.headline);
-      if (alert.endTime > tomorrow && alert.onset < schoolEnd) {
+      if (
+        alert.endTime > tomorrow &&
+        alert.onset < schoolEnd &&
+        alertValue == 'none'
+      ) {
         if (alert.headline.match(/.*(winter).*(warning|watch).*/i)) {
           alertValue = 'warning';
           return alertValue;
