@@ -241,7 +241,7 @@ function calcWaitingMessage() {
     returnRandomWaitMessage();
   setTimeout(function () {
     document.getElementById('below-calculator-div').innerText = '';
-  }, 10000);
+  }, 15000);
 }
 
 function showCalcFactors() {
