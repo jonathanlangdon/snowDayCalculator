@@ -177,6 +177,20 @@ async function getAnalyzeForecast(e) {
 }
 
 async function fetchSnowCalc(apiData) {
+  const isLocalPreview =
+    window.location.protocol === 'file:' ||
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1';
+
+  if (isLocalPreview) {
+    showErrorModal(
+      'The calculation service is unavailable in the local preview.'
+    );
+    showCalcFactors();
+    showModal('resultModal');
+    return;
+  }
+
   try {
     const response = await fetch('/calc', {
       method: 'POST',
@@ -291,10 +305,13 @@ function updateModal(data) {
   }
 }
 
-function showErrorModal() {
+function showErrorModal(message = 'Unexpected Error calculating Snow Day') {
   const modalBody = document.getElementById('modalBody');
-  modalBody.innerText = 'Unexpected Error calculating Snow Day';
-  modalBody.className = 'modal-body text-center error-message';
+  const chanceCalculation = document.getElementById('chance-calculation');
+  const textInterpretation = document.getElementById('text-interpretation');
+  modalBody.classList.add('error-message');
+  chanceCalculation.textContent = message;
+  textInterpretation.textContent = '';
 }
 
 function showModal(modalId) {
