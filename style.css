@@ -1,16 +1,42 @@
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  background-image: url(https://snowdaymichigan.com/graphics/snow.jpg);
+  margin: 0;
+  background: #dcecf7 url(https://snowdaymichigan.com/graphics/snow.jpg) center / cover fixed;
+  color: #17324d;
 }
 
 main {
-  background-color: rgb(255, 255, 255, 0.8);
+  width: min(50%, 720px);
+  margin: auto;
+  padding: 28px 32px;
+  background-color: rgb(255, 255, 255, 0.86);
   border-radius: 30px;
-  min-width: 400px;
+  box-shadow: 0 18px 45px rgb(23, 50, 77, 0.2);
 }
+
+img { max-width: 200px; }
+.text-center { text-align: center; }
+.font-italic { font-style: italic; }
+.small { font-size: 0.875rem; }
+.form-spacing { margin: 1rem; }
+.button {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+.button:hover { filter: brightness(0.92); transform: translateY(-1px); }
+.button-primary { background: #1769aa; }
+.button-info { background: #16849b; }
+.button-danger { background: #b4232f; }
 
 #save-agree {
   margin-right: 5px;
@@ -19,6 +45,8 @@ main {
 #save-label {
   font-size: small;
 }
+
+input[type='checkbox'] { accent-color: #1769aa; }
 
 #calc-factors {
   font-weight: 200;
@@ -30,6 +58,9 @@ main {
 }
 
 input[type='number'] {
+  border: 1px solid #9eb6c8;
+  border-radius: 4px;
+  padding: 6px;
   width: 100px;
   text-align: center;
 }
@@ -38,6 +69,11 @@ input[type='number'] {
   margin: 10px;
   padding: 7px;
   border-radius: 4px;
+}
+
+.main-buttons.location-services {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 p:not(.font-italic),
@@ -88,4 +124,35 @@ a {
   color: red;
   font-size: smaller;
   margin: 10px;
+}
+
+.modal {
+  align-items: center;
+  background: rgb(15, 35, 52, 0.58);
+  display: none;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 10;
+}
+.modal.is-visible { display: flex; }
+.modal-dialog { width: min(100%, 500px); }
+.modal-content {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 18px 45px rgb(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+.modal-header, .modal-body, .modal-footer { padding: 1rem 1.25rem; }
+.modal-header { border-bottom: 1px solid #d9e3ea; text-align: center; }
+.modal-title { margin: 0; }
+.modal-body { color: #17324d; }
+.modal-footer { border-top: 1px solid #d9e3ea; text-align: center; }
+.modal-footer p { margin: 0 0 1rem; }
+.error-message { color: #b4232f; font-weight: 700; }
+
+@media (max-width: 640px) {
+  main { width: calc(100% - 24px); padding: 22px 16px; }
+  h1 { font-size: 1.6rem; }
 }

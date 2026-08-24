@@ -13,7 +13,7 @@ This application helps users predict snow days in West Michigan based on weather
 - HTML
 - CSS
 - JavaScript
-- Bootstrap
+- A modern web browser
 
 ## Usage
 

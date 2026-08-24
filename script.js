@@ -294,13 +294,32 @@ function updateModal(data) {
 function showErrorModal() {
   const modalBody = document.getElementById('modalBody');
   modalBody.innerText = 'Unexpected Error calculating Snow Day';
-  modalBody.className = 'modal-body text-center font-weight-bold text-danger';
+  modalBody.className = 'modal-body text-center error-message';
 }
 
 function showModal(modalId) {
-  const resultModal = new bootstrap.Modal(document.getElementById(modalId));
-  resultModal.show();
+  const modal = document.getElementById(modalId);
+  modal.classList.add('is-visible');
+  modal.setAttribute('aria-hidden', 'false');
 }
+
+function hideModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.classList.remove('is-visible');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+document.getElementById('close-result-modal').addEventListener('click', () => {
+  hideModal('resultModal');
+});
+
+document.getElementById('resultModal').addEventListener('click', event => {
+  if (event.target.id === 'resultModal') hideModal('resultModal');
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') hideModal('resultModal');
+});
 
 // Use previously obtained location
 function usePreviousLocation() {

@@ -11,8 +11,8 @@
       http-equiv="Content-Security-Policy"
       content="
       default-src 'none';
-      script-src 'self' https://cdn.jsdelivr.net https://kit.fontawesome.com;
-      style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
+      script-src 'self' https://kit.fontawesome.com;
+      style-src 'self' 'unsafe-inline';
       img-src 'self' data:;
       connect-src 'self' https://api.weather.gov https://ka-f.fontawesome.com;
       font-src 'self' https://kit.fontawesome.com https://ka-f.fontawesome.com;
@@ -25,18 +25,9 @@
     <link rel="canonical" href="https://snowdaymichigan.com" />
     <link rel="icon" type="image/png" href="graphics/favicon.png?v=1.01" />
     <link rel="icon" type="image/x-icon" href="graphics/favicon.ico?v=1.01" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-
     <link rel="stylesheet" type="text/css" href="style.css?v=1.22" />
 
     <script type="module" defer src="script.js?v=1.9911"></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    ></script>
     <script
       src="https://kit.fontawesome.com/dd91a4c4fb.js"
       crossorigin="anonymous"
@@ -44,8 +35,8 @@
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
-    <div id="full-height" class="d-flex align-items-center">
-      <main class="w-50 m-auto">
+    <div id="full-height">
+      <main>
         <div class="text-center">
           <image
             src="graphics/michigan.png"
@@ -56,7 +47,7 @@
         <p class="font-italic text-center small-text location-services">
           Default Location: Fruitport, MI
         </p>
-        <form id="location-getter" class="text-center m-3">
+        <form id="location-getter" class="text-center form-spacing">
           <div id="checkbox-line" class="location-services">
             <input type="checkbox" name="save-agreed" id="save-agree" />
             <label for="save-agree" id="save-label">
@@ -64,7 +55,7 @@
             >
           </div>
           <button
-            class="btn-info main-buttons m-auto location-services"
+            class="button button-info main-buttons location-services"
             type="submit"
           >
             <i class="fa-solid fa-location-dot"></i> Get your location
@@ -106,7 +97,7 @@
             </i>
           </p>
           <div class="text-center">
-            <button class="btn-primary main-buttons" type="submit">
+            <button class="button button-primary main-buttons" type="submit">
               <i class="fa-solid fa-snowflake fa-beat-fade"></i>
               Calculate Tomorrow's Chance
             </button>
@@ -128,16 +119,16 @@
 
         <!-- Modal pop-up -->
         <div
-          class="modal fade"
+          class="modal"
           id="resultModal"
           tabindex="-1"
           aria-labelledby="resultModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title mx-auto" id="resultModalLabel">
+                <h4 class="modal-title" id="resultModalLabel">
                   Tomorrow's Snow Day Chance
                 </h4>
               </div>
@@ -146,17 +137,17 @@
                 <p class="text-center" id="text-interpretation"></p>
                 <p
                   id="calc-factors"
-                  class="font-italic text-center m-auto small"
+                  class="font-italic text-center small"
                 ></p>
               </div>
               <div class="modal-footer">
-                <p class="font-italic text-center m-auto rounded w-auto small">
+                <p class="font-italic text-center small">
                   Note: Does not predict ice days or other irregular events
                 </p>
                 <button
                   type="button"
-                  class="btn btn-danger"
-                  data-bs-dismiss="modal"
+                  class="button button-danger"
+                  id="close-result-modal"
                 >
                   <i class="fa-solid fa-circle-xmark fa-fade"></i> Close
                 </button>
