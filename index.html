@@ -10,12 +10,14 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="
-      default-src 'none';
-      script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=';
-      style-src 'self';
-      img-src 'self' data:;
-      font-src 'self';
-      connect-src 'self' https://api.weather.gov;
+      default-src 'self' https: data: blob:;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+      style-src 'self' 'unsafe-inline' https:;
+      img-src 'self' data: blob: https:;
+      font-src 'self' data: https:;
+      connect-src 'self' https:;
+      frame-src https:;
+      worker-src 'self' blob: https:;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
@@ -25,15 +27,31 @@
     <link rel="canonical" href="https://snowdaymichigan.com" />
     <link rel="icon" type="image/png" href="graphics/favicon.png?v=1.01" />
     <link rel="icon" type="image/x-icon" href="graphics/favicon.ico?v=1.01" />
-    <link rel="stylesheet" type="text/css" href="style.css?v=1.22" />
+    <link rel="stylesheet" type="text/css" href="style.css?v=1.23" />
     <link rel="stylesheet" href="vendor/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="vendor/fontawesome/css/solid.min.css" />
 
-    <script type="module" defer src="script.js?v=1.9911"></script>
+    <script type="module" defer src="script.js?v=2.0"></script>
+    <script type="module" defer src="ads.js?v=1.0"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7502822768460088"
+      crossorigin="anonymous"
+    ></script>
     <title>Snow Day Calculator - West Michigan</title>
   </head>
   <body>
     <div id="full-height">
+      <aside
+        class="ad-shell ad-shell-top"
+        data-ad-shell="top"
+        aria-label="Advertisement"
+        hidden
+      >
+        <p class="ad-label">Advertisement</p>
+        <div class="ad-slot" data-ad-position="top"></div>
+      </aside>
+
       <main>
         <div class="text-center">
           <image
@@ -49,8 +67,8 @@
           <div id="checkbox-line" class="location-services">
             <input type="checkbox" name="save-agreed" id="save-agree" />
             <label for="save-agree" id="save-label">
-              Agree to local storage and save your location</label
-            >
+              Agree to local storage and save your location
+            </label>
           </div>
           <button
             class="button button-info main-buttons location-services"
@@ -97,7 +115,11 @@
             </i>
           </p>
           <div class="text-center">
-            <button class="button button-primary main-buttons" type="submit">
+            <button
+              class="button button-primary main-buttons"
+              id="calculate-button"
+              type="submit"
+            >
               <i
                 class="fa-solid fa-snowflake fa-beat-fade"
                 aria-hidden="true"
@@ -155,7 +177,66 @@
             </div>
           </div>
         </div>
+
+        <!-- Calculation progress. A standard AdSense unit must not be put here:
+             Google treats modal placements as pop-up ads. See ADSENSE_SETUP.md. -->
+        <div
+          class="modal"
+          id="calculationModal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="calculationModalLabel"
+          aria-describedby="calculation-status"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog calculation-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="calculationModalLabel">
+                  Calculating your snow day chance
+                </h4>
+              </div>
+              <div class="modal-body text-center">
+                <div class="calculation-spinner" aria-hidden="true"></div>
+                <p id="calculation-status" aria-live="polite">
+                  Checking the latest forecast…
+                </p>
+                <div class="rewarded-ad-reserved" hidden>
+                  <p class="ad-label">Optional sponsored video</p>
+                  <p>
+                    Reserved for a policy-compliant Google Ad Manager rewarded
+                    ad.
+                  </p>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="button button-primary"
+                  id="see-result-button"
+                  disabled
+                >
+                  See result in 5 seconds
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
+
+      <aside
+        class="ad-shell ad-shell-bottom"
+        data-ad-shell="bottom"
+        aria-label="Advertisement"
+        hidden
+      >
+        <p class="ad-label">Advertisement</p>
+        <div class="ad-slot" data-ad-position="bottom"></div>
+      </aside>
+
+      <footer class="site-footer">
+        <a href="privacy.html">Privacy</a>
+      </footer>
     </div>
   </body>
 </html>

@@ -6,6 +6,81 @@ let SNOWTOMORROW = 0;
 let PRECIP = 0;
 let TEMP = 32;
 let ALERT = 'none';
+const MINIMUM_RESULT_WAIT_MS = 5000;
+
+let calculationStartedAt = 0;
+let calculationIsComplete = false;
+let resultCountdownTimer;
+
+function resetCalculationData() {
+  SNOWTODAY = 0;
+  SNOWTOMORROW = 0;
+  PRECIP = 0;
+  TEMP = 32;
+  ALERT = 'none';
+
+  const modalBody = document.getElementById('modalBody');
+  modalBody.classList.remove('error-message');
+  document.getElementById('chance-calculation').textContent = '';
+  document.getElementById('text-interpretation').textContent = '';
+  document.getElementById('calc-factors').textContent = '';
+}
+
+function updateResultGate() {
+  const elapsed = Date.now() - calculationStartedAt;
+  const remainingMilliseconds = Math.max(
+    0,
+    MINIMUM_RESULT_WAIT_MS - elapsed
+  );
+  const remainingSeconds = Math.ceil(remainingMilliseconds / 1000);
+  const resultButton = document.getElementById('see-result-button');
+  const status = document.getElementById('calculation-status');
+
+  if (remainingSeconds > 0) {
+    resultButton.disabled = true;
+    resultButton.textContent = `See result in ${remainingSeconds} ${
+      remainingSeconds === 1 ? 'second' : 'seconds'
+    }`;
+    return;
+  }
+
+  if (!calculationIsComplete) {
+    resultButton.disabled = true;
+    resultButton.textContent = 'Finishing calculation…';
+    status.textContent = 'The forecast is taking a little longer than usual…';
+    return;
+  }
+
+  window.clearInterval(resultCountdownTimer);
+  resultButton.disabled = false;
+  resultButton.textContent = 'See result';
+  status.textContent = 'Your result is ready.';
+}
+
+function beginResultGate() {
+  window.clearInterval(resultCountdownTimer);
+  calculationStartedAt = Date.now();
+  calculationIsComplete = false;
+  document.getElementById('calculate-button').disabled = true;
+  document.getElementById('calculation-status').textContent =
+    'Checking the latest forecast…';
+  showModal('calculationModal');
+  updateResultGate();
+  resultCountdownTimer = window.setInterval(updateResultGate, 250);
+}
+
+function markResultReady() {
+  calculationIsComplete = true;
+  updateResultGate();
+}
+
+function revealResult() {
+  if (!calculationIsComplete) return;
+
+  hideModal('calculationModal');
+  showModal('resultModal');
+  document.getElementById('calculate-button').disabled = false;
+}
 
 // get 5am Forecast for Precipitation
 function handlePrecipitationForecast(data) {
@@ -143,6 +218,8 @@ async function handleAlert(url) {
 
 async function getAnalyzeForecast(e) {
   e.preventDefault();
+  resetCalculationData();
+  beginResultGate();
   document.getElementById('forecast-error').innerText = '';
   calcWaitingMessage();
   const Urls = getWeatherUrl();
@@ -187,7 +264,7 @@ async function fetchSnowCalc(apiData) {
       'The calculation service is unavailable in the local preview.'
     );
     showCalcFactors();
-    showModal('resultModal');
+    markResultReady();
     return;
   }
 
@@ -209,7 +286,7 @@ async function fetchSnowCalc(apiData) {
     showErrorModal();
   }
   showCalcFactors();
-  showModal('resultModal');
+  markResultReady();
   setTimeout(
     () => (document.getElementById('below-calculator-div').innerText = ''),
     2000
@@ -280,6 +357,7 @@ function showCalcFactors() {
 }
 
 function updateModal(data) {
+  document.getElementById('modalBody').classList.remove('error-message');
   const modalBody = document.getElementById('chance-calculation');
   let returnValue = '';
   if (data.result < 1) returnValue = 'Less than 1%';
@@ -329,6 +407,10 @@ function hideModal(modalId) {
 document.getElementById('close-result-modal').addEventListener('click', () => {
   hideModal('resultModal');
 });
+
+document
+  .getElementById('see-result-button')
+  .addEventListener('click', revealResult);
 
 document.getElementById('resultModal').addEventListener('click', event => {
   if (event.target.id === 'resultModal') hideModal('resultModal');
